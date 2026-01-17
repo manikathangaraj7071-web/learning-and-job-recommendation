@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>One Minute Speech - Voice</title>
+    <style>
+      body {
+        font-family: Arial;
+        background: #f4f6f8;
+        text-align: center;
+        padding-top: 50px;
+      }
+      .box {
+        width: 420px;
+        margin: auto;
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #ccc;
+      }
+      .timer {
+        font-size: 22px;
+        color: red;
+        margin: 10px;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 18px;
+      }
+      .mic {
+        font-size: 40px;
+        margin: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <h2>🗣 One Minute Speech</h2>
+      <p><b>{{ topic }}</b></p>
+
+      <div id="stage">Preparation Time</div>
+      <div class="timer" id="timer">45</div>
+
+      <div class="mic" id="mic">🎤</div>
+
+      <button id="startBtn" disabled>Start Recording</button>
+
+      <form
+        id="audioForm"
+        method="POST"
+        action="/upload_audio"
+        enctype="multipart/form-data"
+      >
+        <input type="hidden" name="topic" value="{{ topic }}" />
+        <input type="file" name="audio" id="audioInput" hidden />
+        <button type="submit" id="submitBtn" disabled>Submit Voice</button>
+      </form>
+    </div>
+
+    <script>
+      let prepTime = 45;
+      let speechTime = 60;
+      let timer = document.getElementById("timer");
+      let stage = document.getElementById("stage");
+      let startBtn = document.getElementById("startBtn");
+      let submitBtn = document.getElementById("submitBtn");
+      let audioInput = document.getElementById("audioInput");
+
+      let mediaRecorder;
+      let audioChunks = [];
+
+      // Preparation timer
+      let prepInterval = setInterval(() => {
+        timer.innerHTML = prepTime;
+        prepTime--;
+
+        if (prepTime < 0) {
+          clearInterval(prepInterval);
+          stage.innerHTML = "Speech Time (1 Minute)";
+          startBtn.disabled = false;
+          timer.innerHTML = "60";
+        }
+      }, 1000);
+
+      startBtn.onclick = async () => {
+        audioChunks = [];
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.start();
+        document.getElementById("mic").innerHTML = "🔴";
+
+        let speechInterval = setInterval(() => {
+          timer.innerHTML = speechTime;
+          speechTime--;
+
+          if (speechTime < 0) {
+            clearInterval(speechInterval);
+            mediaRecorder.stop();
+            document.getElementById("mic").innerHTML = "🎤";
+          }
+        }, 1000);
+
+        mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(audioChunks, { type: "audio/webm" });
+          const file = new File([blob], "speech.webm");
+          const dt = new DataTransfer();
+          dt.items.add(file);
+          audioInput.files = dt.files;
+          submitBtn.disabled = false;
+        };
+      };
+    </script>
+  </body>
+</html>

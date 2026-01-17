@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cloud Domain Selection</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 900px;
+        background: rgba(255, 255, 255, 0.08);
+        padding: 40px;
+        border-radius: 18px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 32px;
+        letter-spacing: 1px;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: #dbeafe;
+        font-size: 15px;
+        margin-bottom: 35px;
+      }
+
+      .domain-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 25px;
+      }
+
+      .domain-card {
+        background: linear-gradient(145deg, #1e3c72, #2a5298);
+        padding: 25px;
+        border-radius: 16px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.35s ease;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .domain-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.15),
+          transparent 60%
+        );
+        opacity: 0;
+        transition: opacity 0.4s;
+      }
+
+      .domain-card:hover::before {
+        opacity: 1;
+      }
+
+      .domain-card:hover {
+        transform: translateY(-12px) scale(1.03);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.55);
+      }
+
+      .icon {
+        font-size: 40px;
+        margin-bottom: 15px;
+      }
+
+      .domain-card h3 {
+        margin: 10px 0;
+        font-size: 20px;
+      }
+
+      .domain-card p {
+        font-size: 14px;
+        color: #e0f2fe;
+        line-height: 1.5;
+      }
+
+      .select-btn {
+        margin-top: 18px;
+        display: inline-block;
+        padding: 10px 22px;
+        background: white;
+        color: #1e3c72;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background 0.3s, color 0.3s;
+      }
+
+      .domain-card:hover .select-btn {
+        background: #0f172a;
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Select Your Cloud Platform</h1>
+      <p class="subtitle">
+        Choose a cloud domain to explore companies, jobs, and learning paths
+      </p>
+
+      <div class="domain-grid">
+        <div class="domain-card" onclick="selectDomain('Amazon Web Services')">
+          <div class="icon">☁️</div>
+          <h3>Amazon Web Services</h3>
+          <p>EC2, S3, Lambda, DevOps & Cloud Engineer roles</p>
+          <span class="select-btn">Select AWS</span>
+        </div>
+
+        <div class="domain-card" onclick="selectDomain('Microsoft Azure')">
+          <div class="icon">🔷</div>
+          <h3>Microsoft Azure</h3>
+          <p>Virtual Machines, Azure DevOps, Cloud Admin jobs</p>
+          <span class="select-btn">Select Azure</span>
+        </div>
+
+        <div
+          class="domain-card"
+          onclick="selectDomain('Google Cloud Platform')"
+        >
+          <div class="icon">🌐</div>
+          <h3>Google Cloud</h3>
+          <p>BigQuery, Kubernetes, Data & Cloud Architect roles</p>
+          <span class="select-btn">Select GCP</span>
+        </div>
+
+        <div class="domain-card" onclick="selectDomain('IBM Cloud')">
+          <div class="icon">🏢</div>
+          <h3>IBM Cloud</h3>
+          <p>Enterprise cloud, AI integration & hybrid systems</p>
+          <span class="select-btn">Select IBM</span>
+        </div>
+
+        <div
+          class="domain-card"
+          onclick="selectDomain('Oracle Cloud Infrastructure')"
+        >
+          <div class="icon">🗄️</div>
+          <h3>Oracle Cloud</h3>
+          <p>OCI, Database cloud, ERP & enterprise jobs</p>
+          <span class="select-btn">Select OCI</span>
+        </div>
+
+        <div class="domain-card" onclick="selectDomain('Salesforce')">
+          <div class="icon">⚡</div>
+          <h3>Salesforce</h3>
+          <p>CRM, Admin, Developer & Consultant roles</p>
+          <span class="select-btn">Select Salesforce</span>
+        </div>
+
+        <div class="domain-card" onclick="selectDomain('Alibaba Cloud')">
+          <div class="icon">🚀</div>
+          <h3>Alibaba Cloud</h3>
+          <p>Global cloud services & big data solutions</p>
+          <span class="select-btn">Select Alibaba</span>
+        </div>
+
+        <div class="domain-card" onclick="selectDomain('DigitalOcean')">
+          <div class="icon">💧</div>
+          <h3>DigitalOcean</h3>
+          <p>Simple cloud hosting & startup environments</p>
+          <span class="select-btn">Select DO</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function selectDomain(domain) {
+        localStorage.setItem("selectedDomain", domain);
+        window.location.href = "company.html";
+      }
+    </script>
+  </body>
+</html>

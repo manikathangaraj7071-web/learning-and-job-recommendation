@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Technical Coding Round (C Language)</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f7fb;
+        margin: 0;
+        padding: 0;
+      }
+
+      .header {
+        background: #0b3c6f;
+        color: white;
+        padding: 15px 30px;
+        font-size: 20px;
+      }
+
+      .container {
+        width: 75%;
+        margin: 30px auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .q-count {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 10px;
+      }
+
+      .question {
+        font-size: 18px;
+        margin-bottom: 15px;
+      }
+
+      .sample {
+        background: #f1f3f6;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        font-family: monospace;
+      }
+
+      textarea {
+        width: 100%;
+        height: 260px;
+        font-family: Consolas, monospace;
+        font-size: 14px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-top: 10px;
+      }
+
+      button {
+        background: #0b3c6f;
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        font-size: 15px;
+        margin-top: 20px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+
+      button:hover {
+        background: #092f56;
+      }
+
+      .btn-group {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .result {
+        margin-top: 15px;
+        font-weight: bold;
+        color: green;
+      }
+
+      .error {
+        margin-top: 15px;
+        font-weight: bold;
+        color: red;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="header">Technical Coding Round – C Language</div>
+
+    <div class="container">
+      <div class="q-count">Question {{ current }} of {{ total }}</div>
+
+      <div class="question">{{ question.question }}</div>
+
+      <div class="sample">
+        <b>Sample Input</b><br />
+        {{ question.sample_input }}
+      </div>
+
+      <div class="sample">
+        <b>Expected Output</b><br />
+        {{ question.sample_output }}
+      </div>
+
+      <form method="post">
+        <textarea name="code" required>
+{{ user_code or "// Write your C program here\n#include <stdio.h>\n\nint main() {\n\n    return 0;\n}" }}</textarea
+        >
+
+        <div class="btn-group">
+          {% if current > 1 %}
+          <button type="submit" name="action" value="prev">⬅ Previous</button>
+          {% endif %}
+          <button type="submit" name="action" value="run">Run ✅</button>
+          <button type="submit" name="action" value="next">Next ➡</button>
+        </div>
+      </form>
+
+      {% if result %} {% if "Wrong" in result or "error" in result %}
+      <div class="error">{{ result }}</div>
+      {% else %}
+      <div class="result">{{ result }}</div>
+      {% endif %} {% endif %}
+    </div>
+  </body>
+</html>

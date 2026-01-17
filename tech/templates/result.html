@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Interview Result</title>
+
+    <!-- ✅ INTERNAL CSS -->
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        height: 100vh;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(to right, #141e30, #243b55);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .card {
+        background: #ffffff;
+        width: 400px;
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      h2 {
+        margin-bottom: 20px;
+        color: #0f172a;
+      }
+
+      p {
+        font-size: 16px;
+        color: #334155;
+        margin: 6px 0;
+      }
+
+      h3 {
+        margin-top: 12px;
+        color: #1e293b;
+      }
+
+      .status {
+        margin-top: 20px;
+        font-size: 22px;
+        font-weight: bold;
+      }
+
+      .success {
+        color: #16a34a;
+      }
+
+      .fail {
+        color: #dc2626;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card">
+      <h2>Interview Result</h2>
+
+      <p>HR Score : <b>{{ hr_score }}</b></p>
+      <p>Technical Score : <b>{{ tech_score }}</b></p>
+
+      <h3>Total Score : {{ total }}</h3>
+
+      {% if total >= 3 %}
+      <div class="status success">✅ Selected</div>
+      {% else %}
+      <div class="status fail">❌ Not Selected</div>
+      {% endif %}
+    </div>
+  </body>
+</html>

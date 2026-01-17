@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HR Round</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <h2>HR Interview Round</h2>
+
+    <form action="/technical" method="post">
+      {% for q in hr_questions %}
+      <p>{{ q.question }}</p>
+      <textarea name="hr{{ q.id }}" required></textarea>
+      {% endfor %}
+      <button>Next</button>
+    </form>
+  </body>
+</html>

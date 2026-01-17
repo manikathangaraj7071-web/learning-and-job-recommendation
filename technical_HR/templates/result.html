@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Interview Result</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        height: 100vh;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .card {
+        background: #ffffff;
+        width: 420px;
+        padding: 35px 30px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease;
+      }
+      .card:hover {
+        transform: translateY(-5px);
+      }
+      h2 {
+        margin-bottom: 25px;
+        color: #1f2937;
+        font-size: 26px;
+      }
+      .score {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+        margin: 10px 0;
+        border-radius: 10px;
+        background: #f3f4f6;
+        font-weight: 500;
+        font-size: 16px;
+      }
+      .total-score {
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #0f172a;
+      }
+      .status {
+        margin-top: 25px;
+        font-size: 22px;
+        font-weight: bold;
+        padding: 10px 0;
+        border-radius: 10px;
+      }
+      .success {
+        color: #16a34a;
+        background: #d1fae5;
+      }
+      .fail {
+        color: #dc2626;
+        background: #fee2e2;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card">
+      <h2>Interview Result</h2>
+
+      <div class="score">
+        <span>HR Score:</span>
+        <span>{{ hr_score }} ({{ hr_percentage|round|int }}%)</span>
+      </div>
+
+      <div class="score">
+        <span>Technical Score:</span>
+        <span>{{ tech_score }} ({{ tech_percentage|round|int }}%)</span>
+      </div>
+
+      <div class="score">
+        <span>Coding Score:</span>
+        <span>{{ code_score }} ({{ code_percentage|round|int }}%)</span>
+      </div>
+
+      <div class="total-score">Total Score : {{ total }}</div>
+
+      {% if status == "Selected" %}
+      <div class="status success">✅ Selected</div>
+      {% else %}
+      <div class="status fail">❌ Not Selected</div>
+      {% endif %}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+<!-- templates/reading.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Reading & Listening</title>
+  </head>
+  <body>
+    <h2>Question {{ index }} of {{ total }}</h2>
+    <p>{{ question.question_text }}</p>
+
+    <form method="POST" action="/save_reading">
+      <input type="hidden" name="question_id" value="{{ question.id }}" />
+      <input type="text" name="spoken" placeholder="Type your answer" />
+      <input type="number" step="0.5" name="mark" placeholder="Mark" />
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>

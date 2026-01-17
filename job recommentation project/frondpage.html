@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Job Finder</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #f5f7fb;
+      }
+
+      /* Navbar */
+      .navbar {
+        background: #ffffff;
+        padding: 15px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .logo {
+        font-size: 22px;
+        font-weight: bold;
+        color: #2b2e4a;
+      }
+
+      .nav-links a {
+        margin: 0 15px;
+        text-decoration: none;
+        color: #333;
+        font-size: 16px;
+      }
+
+      .btn {
+        padding: 8px 18px;
+        background-color: #ff3d6d;
+        color: #fff;
+        border-radius: 5px;
+        text-decoration: none;
+      }
+
+      /* Hero Section */
+      .hero {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 60px 40px;
+        background-color: #eef1ff;
+      }
+
+      .hero-text {
+        width: 50%;
+      }
+
+      .hero-text h1 {
+        font-size: 42px;
+        color: #2b2e4a;
+        line-height: 1.3;
+      }
+
+      .search-box {
+        margin-top: 25px;
+        display: flex;
+      }
+
+      .search-box input {
+        padding: 12px;
+        width: 250px;
+        border: none;
+        outline: none;
+      }
+
+      .search-box button {
+        padding: 12px 20px;
+        background: #ff3d6d;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+
+      .hero img {
+        width: 350px;
+      }
+
+      /* Categories */
+      .categories {
+        padding: 60px 40px;
+        background: #fff;
+        text-align: center;
+      }
+
+      .categories h2 {
+        font-size: 30px;
+        color: #2b2e4a;
+        margin-bottom: 40px;
+      }
+
+      .category-box {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+      }
+
+      .card {
+        background: #f5f7fb;
+        width: 220px;
+        padding: 25px;
+        margin: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .card img {
+        width: 60px;
+        margin-bottom: 15px;
+      }
+
+      .card h3 {
+        font-size: 18px;
+        color: #2b2e4a;
+      }
+
+      .card p {
+        font-size: 14px;
+        color: #555;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Navigation -->
+    <div class="navbar">
+      <div class="logo">Job Finder</div>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Find Jobs</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#" class="btn">Login</a>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+      <div class="hero-text">
+        <h1>Find the Best Jobs<br />for Your Career</h1>
+        <div class="search-box">
+          <input type="text" placeholder="Job title or keyword" />
+          <button>Find Job</button>
+        </div>
+      </div>
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png"
+        alt="Job Search"
+      />
+    </div>
+
+    <!-- Categories Section -->
+    <div class="categories">
+      <h2>Browse Top Categories</h2>
+      <div class="category-box">
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/4144/4144437.png" />
+          <h3>Cloud Computing</h3>
+          <p>AWS, Azure, DevOps, Cloud Security</p>
+        </div>
+
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/2920/2920244.png" />
+          <h3>Software Development</h3>
+          <p>Java, Python, Web & App Development</p>
+        </div>
+
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" />
+          <h3>Data Analytics</h3>
+          <p>SQL, Power BI, Data Visualization</p>
+        </div>
+
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/2103/2103633.png" />
+          <h3>AI & Machine Learning</h3>
+          <p>Python, Deep Learning, NLP</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Test Result</title>
+    <style>
+      /* Reset some default styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: #f0f2f5; /* soft background like Google Drive */
+      }
+
+      .card {
+        background: #fff;
+        padding: 40px 60px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        width: 400px;
+      }
+
+      h1 {
+        color: #0b63ce; /* primary blue color */
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        font-size: 28px;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      h3 {
+        font-size: 22px;
+        margin-bottom: 30px;
+      }
+
+      h3.green {
+        color: #28a745; /* success green */
+      }
+
+      h3.red {
+        color: #dc3545; /* failure red */
+      }
+
+      a {
+        display: inline-block;
+        text-decoration: none;
+        background: #0b63ce;
+        color: #fff;
+        padding: 12px 25px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      a:hover {
+        background: #094a9b;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Test Result</h1>
+
+      <h2>Your Score: {{ score }} / {{ total }}</h2>
+
+      {% if score >= total/2 %}
+      <h3 class="green">Congratulations! You Passed 🎉</h3>
+      {% else %}
+      <h3 class="red">Sorry! You Failed 😔</h3>
+      {% endif %}
+
+      <a href="/">Go Home</a>
+    </div>
+  </body>
+</html>

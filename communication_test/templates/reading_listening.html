@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Listen & Repeat Test</title>
+
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: #e6ecf0;
+        font-family: Segoe UI, sans-serif;
+      }
+
+      .card {
+        background: #fff;
+        width: 520px;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        padding: 40px;
+        text-align: center;
+      }
+
+      h1 {
+        color: #0b63ce;
+        margin-bottom: 20px;
+      }
+
+      #progress {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+
+      .audio-line {
+        background: #25d366;
+        height: 45px;
+        border-radius: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 20px auto;
+      }
+
+      button {
+        padding: 12px 25px;
+        font-size: 16px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        margin: 10px 5px 0 5px;
+      }
+
+      #speak-btn {
+        background: #28a745;
+        color: #fff;
+      }
+
+      #next-btn {
+        background: #6c757d;
+        color: #fff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card">
+      <h1>Listen & Repeat Test</h1>
+
+      <div id="progress">{{ index }} / {{ total }}</div>
+
+      <!-- AUDIO ONLY -->
+      <div class="audio-line" onclick="playAudio()">🎵 Tap to Play</div>
+
+      <audio id="questionAudio" preload="auto">
+        <source
+          src="{{ url_for('static', filename='audio/' + question.audio_file) }}"
+          type="audio/mpeg"
+        />
+      </audio>
+
+      <!-- Hidden Form -->
+      <form
+        id="answerForm"
+        action="{{ url_for('listen_repeat_next') }}"
+        method="POST"
+      >
+        <input type="hidden" id="spoken_text" name="spoken_text" />
+        <input
+          type="hidden"
+          name="correct_text"
+          value="{{ question.correct_text }}"
+        />
+      </form>
+
+      <button id="speak-btn" onclick="startDictation()">🎤 Speak</button>
+      <button id="next-btn" onclick="submitNext()">Next</button>
+    </div>
+
+    <script>
+      function playAudio() {
+        document.getElementById("questionAudio").play();
+      }
+
+      window.onload = playAudio;
+
+      function startDictation() {
+        if (!("webkitSpeechRecognition" in window)) {
+          alert("Speech recognition not supported");
+          return;
+        }
+
+        let recognition = new webkitSpeechRecognition();
+        recognition.lang = "en-US";
+        recognition.start();
+
+        recognition.onresult = function (e) {
+          document.getElementById("spoken_text").value =
+            e.results[0][0].transcript;
+          alert("Speech captured!");
+        };
+      }
+
+      function submitNext() {
+        document.getElementById("answerForm").submit();
+      }
+    </script>
+  </body>
+</html>

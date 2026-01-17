@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Welcome | Job Finder & Learning Platform</title>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(to right, #eef1ff, #f4f6fb);
+      }
+
+      /* CONTAINER */
+      .container {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .welcome-box {
+        background: #ffffff;
+        padding: 50px;
+        width: 850px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        text-align: center;
+      }
+
+      .welcome-box h1 {
+        font-size: 36px;
+        color: #2b2e4a;
+        margin-bottom: 10px;
+      }
+
+      .welcome-box p {
+        font-size: 18px;
+        color: #555;
+        margin-bottom: 40px;
+      }
+
+      /* DOMAIN CARDS */
+      .domains {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+      }
+
+      .domain {
+        background: #f4f6fb;
+        width: 180px;
+        padding: 25px;
+        margin: 15px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .domain:hover {
+        transform: translateY(-8px);
+        background: #eef1ff;
+      }
+
+      .domain img {
+        width: 60px;
+        margin-bottom: 15px;
+      }
+
+      .domain h3 {
+        font-size: 16px;
+        color: #2b2e4a;
+      }
+
+      /* BUTTON */
+      .btn {
+        margin-top: 40px;
+        padding: 12px 30px;
+        background: #ff3d6d;
+        color: white;
+        border: none;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="welcome-box">
+        <h1>Welcome to Job Finder</h1>
+        <p>Select your interested domain to start your career journey</p>
+
+        <div class="domains">
+          <div class="domain" onclick="selectDomain('Cloud Computing')">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/4144/4144437.png"
+            />
+            <h3>Cloud Computing</h3>
+          </div>
+
+          <div class="domain" onclick="selectDomain('Software Development')">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/2920/2920244.png"
+            />
+            <h3>Software Development</h3>
+          </div>
+
+          <div class="domain" onclick="selectDomain('Data Analytics')">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png"
+            />
+            <h3>Data Analytics</h3>
+          </div>
+
+          <div class="domain" onclick="selectDomain('AI & Machine Learning')">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/2103/2103633.png"
+            />
+            <h3>AI & Machine Learning</h3>
+          </div>
+        </div>
+
+        <button class="btn" onclick="goNext()">Continue</button>
+      </div>
+    </div>
+
+    <script>
+      let selectedDomain = "";
+
+      function selectDomain(domain) {
+        selectedDomain = domain;
+        alert("You selected: " + domain);
+      }
+
+      function goNext() {
+        if (selectedDomain === "") {
+          alert("Please select a domain to continue");
+        } else {
+          window.location.href = "index.html"; // Home page
+        }
+      }
+    </script>
+  </body>
+</html>

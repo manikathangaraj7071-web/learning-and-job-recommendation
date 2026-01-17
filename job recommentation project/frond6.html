@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Domain Selection</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #1e3c72, #2a5298);
+        text-align: center;
+        color: white;
+      }
+
+      .container {
+        margin-top: 80px;
+      }
+
+      .domain-btn {
+        display: block;
+        width: 300px;
+        margin: 15px auto;
+        padding: 15px;
+        font-size: 18px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Select Your company</h1>
+
+      <button class="domain-btn" onclick="selectDomain('Amazon web services')">
+        <a href="03.html">Amazon web services</a>
+      </button>
+      <button class="domain-btn" onclick="selectDomain('Microsoft Azure')">
+        <a href="04.html">Microsoft Azure</a>
+      </button>
+      <button
+        class="domain-btn"
+        onclick="selectDomain('google cloud Platform')"
+      >
+        <a href="05.html">google cloud Platform</a>
+      </button>
+      <button class="domain-btn" onclick="selectDomain('IBM cloud')">
+        <a href="06.html">IBM cloud</a>
+      </button>
+      <button
+        class="domain-btn"
+        onclick="selectDomain('Oracle Cloud Infrastructure (OCI)')"
+      >
+        <a href="07.html">Oracle Cloud Infrastructure (OCI)</a>
+      </button>
+      <button class="domain-btn" onclick="selectDomain('Alibaba Cloud')">
+        <a href="08.html"> Alibaba Cloud</a>
+      </button>
+      <button class="domain-btn" onclick="selectDomain('Salesforce')">
+        <a href="09.html">Salesforce</a>
+      </button>
+      <button class="domain-btn" onclick="selectDomain('DigitalOcean')">
+        <a href="09.html">DigitalOcean</a>
+      </button>
+    </div>
+
+    <script>
+      function selectDomain(domain) {
+        localStorage.setItem("selectedDomain", domain);
+        window.location.href = "company.html";
+      }
+    </script>
+  </body>
+</html>

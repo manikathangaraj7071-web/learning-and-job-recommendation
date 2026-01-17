@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Technical Round</title>
+  </head>
+  <body>
+    <h2>Technical Interview Round</h2>
+
+    <form action="/result" method="post">
+      <input type="hidden" name="hr_score" value="{{ hr_score }}" />
+
+      {% for q in tech_questions %}
+      <p>{{ q.question }}</p>
+      <input
+        type="radio"
+        name="tech{{ q.id }}"
+        value="{{ q.option1 }}"
+        required
+      />
+      {{ q.option1 }}<br />
+      <input type="radio" name="tech{{ q.id }}" value="{{ q.option2 }}" /> {{
+      q.option2 }}<br />
+      <input type="radio" name="tech{{ q.id }}" value="{{ q.option3 }}" /> {{
+      q.option3 }}<br />
+      <input type="radio" name="tech{{ q.id }}" value="{{ q.option4 }}" /> {{
+      q.option4 }}<br />
+      {% endfor %}
+
+      <button>Submit</button>
+    </form>
+  </body>
+</html>

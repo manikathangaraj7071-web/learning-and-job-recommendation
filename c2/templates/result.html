@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test Result</title>
+    <style>
+      body {
+        font-family: Arial;
+        background: #eef2f7;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .box {
+        background: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
+        width: 400px;
+      }
+      h1 {
+        color: #0b3c6f;
+        margin-bottom: 10px;
+      }
+      .score {
+        font-size: 22px;
+        margin: 15px 0;
+      }
+      .level {
+        font-size: 40px;
+        font-weight: bold;
+        color: #28a745;
+        margin-top: 10px;
+      }
+      .note {
+        margin-top: 20px;
+        color: #555;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="box">
+      <h1>🎉 Test Completed</h1>
+
+      <div class="score">Score: <b>{{ score }}</b> / 27</div>
+
+      {% set percent = (score / 27) * 100 %}
+
+      <div class="score">Percentage: <b>{{ "%.2f"|format(percent) }}%</b></div>
+
+      {% if percent < 50 %}
+      <div class="level">A1</div>
+      {% elif percent < 70 %}
+      <div class="level">A2</div>
+      {% elif percent < 80 %}
+      <div class="level">B1</div>
+      {% elif percent < 90 %}
+      <div class="level">B2</div>
+      {% elif percent < 95 %}
+      <div class="level">C1</div>
+      {% else %}
+      <div class="level">C2</div>
+      {% endif %}
+
+      <div class="note">CEFR English Proficiency Level</div>
+    </div>
+  </body>
+</html>

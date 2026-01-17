@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+  <head>
+    <title>HR Interview</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="card">
+      <div class="progress">Question {{ current }} / {{ total }}</div>
+
+      <h2>{{ question.question }}</h2>
+
+      <!-- ❌ TEXTBOX HIDDEN -->
+      <input type="hidden" id="finalAnswer" name="answer" />
+
+      <div class="mic-status" id="status">🎙 Click mic and start speaking</div>
+
+      <div class="controls">
+        <button type="button" onclick="startMic()">🎤 Start Mic</button>
+
+        <form method="post">
+          <input type="hidden" name="answer" id="hiddenAnswer" />
+          <button type="submit" class="next">Next ➜</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      let recognition;
+      let finalText = "";
+
+      function startMic() {
+        finalText = "";
+        document.getElementById("status").innerText = "🎧 Listening...";
+
+        recognition = new (
+          window.SpeechRecognition || window.webkitSpeechRecognition
+        )();
+        recognition.lang = "en-US";
+        recognition.start();
+
+        recognition.onresult = function (event) {
+          finalText += event.results[0][0].transcript;
+          document.getElementById("hiddenAnswer").value = finalText;
+          document.getElementById("status").innerText = "✔ Answer captured";
+        };
+
+        recognition.onerror = function () {
+          document.getElementById("status").innerText =
+            "❌ Mic error. Try again";
+        };
+      }
+    </script>
+  </body>
+</html>

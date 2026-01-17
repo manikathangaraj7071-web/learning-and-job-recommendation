@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Aptitude Mock Test</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style1.css') }}"
+    />
+    <style>
+      /* Timer Style */
+      .timer {
+        font-size: 20px;
+        font-weight: bold;
+        color: red;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="test-header">
+      <h2>APTITUDE MOCK TEST</h2>
+    </div>
+
+    <!-- TIMER DISPLAY -->
+    <div class="timer">Time Left: <span id="time">30:00</span></div>
+
+    <form id="testForm" action="/submit" method="POST">
+      <div class="test-container">
+        <!-- LEFT PANEL -->
+        <div class="instructions">
+          <h3>Instructions</h3>
+          <ul>
+            <li>Total Questions: {{ questions|length }}</li>
+            <li>Time: 30 Minutes</li>
+            <li>No Negative Mark</li>
+            <li>Do not refresh the page</li>
+          </ul>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="question-box">
+          {% for q in questions %}
+          <div class="question-card" style="display: none">
+            <h4>Question {{ loop.index }} of {{ questions|length }}</h4>
+            <p>{{ q.question }}</p>
+
+            <label>
+              <input type="radio" name="q{{ q.id }}" value="1" required />
+              {{ q.option1 }} </label
+            ><br />
+
+            <label>
+              <input type="radio" name="q{{ q.id }}" value="2" />
+              {{ q.option2 }} </label
+            ><br />
+
+            <label>
+              <input type="radio" name="q{{ q.id }}" value="3" />
+              {{ q.option3 }} </label
+            ><br />
+
+            <label>
+              <input type="radio" name="q{{ q.id }}" value="4" />
+              {{ q.option4 }}
+            </label>
+          </div>
+          {% endfor %}
+
+          <div class="nav-buttons">
+            <button type="button" onclick="prevQuestion()">Previous</button>
+            <button type="button" onclick="nextQuestion()">Next</button>
+            <button type="submit" id="submitBtn" style="display: none">
+              Submit Test
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <script>
+      // ------------------- Question Navigation -------------------
+      let current = 0;
+      const cards = document.querySelectorAll(".question-card");
+      const submitBtn = document.getElementById("submitBtn");
+
+      cards[current].style.display = "block";
+
+      function nextQuestion() {
+        if (current < cards.length - 1) {
+          cards[current].style.display = "none";
+          current++;
+          cards[current].style.display = "block";
+        }
+
+        if (current === cards.length - 1) {
+          submitBtn.style.display = "inline-block";
+        }
+      }
+
+      function prevQuestion() {
+        if (current > 0) {
+          cards[current].style.display = "none";
+          current--;
+          cards[current].style.display = "block";
+          submitBtn.style.display = "none";
+        }
+      }
+
+      // ------------------- TIMER CODE -------------------
+      let totalTime = 30 * 60; // 30 நிமிடம் in seconds
+      const timerElement = document.getElementById("time");
+
+      const countdown = setInterval(() => {
+        let minutes = Math.floor(totalTime / 60);
+        let seconds = totalTime % 60;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        timerElement.innerText = `${minutes}:${seconds}`;
+
+        totalTime--;
+
+        if (totalTime < 0) {
+          clearInterval(countdown);
+          alert("Time's up! Test will be submitted automatically.");
+          document.getElementById("testForm").submit();
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>

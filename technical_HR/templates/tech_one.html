@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Technical Round</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="card">
+      <div class="progress">Question {{ current }} / {{ total }}</div>
+
+      <h2>{{ question.question }}</h2>
+
+      <form method="post">
+        <div class="options">
+          <label
+            ><input
+              type="radio"
+              name="answer"
+              value="{{ question.option1 }}"
+              required
+            />
+            {{ question.option1 }}</label
+          ><br />
+          <label
+            ><input type="radio" name="answer" value="{{ question.option2 }}" />
+            {{ question.option2 }}</label
+          ><br />
+          <label
+            ><input type="radio" name="answer" value="{{ question.option3 }}" />
+            {{ question.option3 }}</label
+          ><br />
+          <label
+            ><input type="radio" name="answer" value="{{ question.option4 }}" />
+            {{ question.option4 }}</label
+          ><br />
+        </div>
+
+        <button class="next">Next ➜</button>
+      </form>
+    </div>
+  </body>
+</html>

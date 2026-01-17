@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Domain Selection</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #1e3c72, #2a5298);
+        text-align: center;
+        color: white;
+      }
+
+      .container {
+        margin-top: 80px;
+      }
+
+      .domain-btn {
+        display: block;
+        width: 300px;
+        margin: 15px auto;
+        padding: 15px;
+        font-size: 18px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Select Your Company</h1>
+
+      <button class="domain-btn" onclick="selectDomain('Accenture')">
+        <a href="16.html">Accenture</a>
+      </button>
+      <button class="domain-btn" onclick="selectDomain('Deloitte')">
+        <a href="17.html">Deloitte</a>
+      </button>
+      <button class="domain-btn" onclick="selectDomain('IBM')">
+        <a href="06.html">IBM</a>
+      </button>
+      <button
+        class="domain-btn"
+        onclick="selectDomain('TCS (Tata Consultancy Services)')"
+      >
+        <a href="11.html">TCS</a>
+      </button>
+      <button class="domain-btn" onclick="selectDomain('Wipro')">
+        <a href="18.html">Wipro</a>
+      </button>
+      <button class="domain-btn" onclick="selectDomain('Amazon')">
+        <a href="03.html">Amazon</a>
+      </button>
+      <button class="domain-btn" onclick="selectDomain('Google')">
+        <a href="05.html">Google</a>
+      </button>
+      <button class="domain-btn" onclick="selectDomain(' Microsoft')">
+        <a href="04.html">Microsoft</a>
+      </button>
+      <button class="domain-btn" onclick="selectDomain('Genpact')">
+        <a href="19.html">Genpact</a>
+      </button>
+    </div>
+
+    <script>
+      function selectDomain(domain) {
+        localStorage.setItem("selectedDomain", domain);
+        window.location.href = "company.html";
+      }
+    </script>
+  </body>
+</html>

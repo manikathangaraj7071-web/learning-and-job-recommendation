@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Communication Round Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+    <style>
+      #video {
+        width: 320px;
+        height: 240px;
+      }
+      .activity {
+        display: none;
+      }
+      .active {
+        display: block;
+      }
+      canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body class="bg-gradient-to-br from-blue-100 to-purple-200 min-h-screen p-8">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl font-bold text-center mb-8 text-gray-800">
+        Communication Round Drive
+      </h1>
+      <div id="videoContainer" class="relative mx-auto mb-8">
+        <video id="video" autoplay muted playsinline></video>
+        <canvas id="canvas"></canvas>
+        <p id="faceStatus" class="mt-2 text-center text-sm">
+          Face detection ready
+        </p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div id="activities">
+          <button
+            onclick="startActivity('read')"
+            class="w-full bg-green-500 text-white py-3 rounded-lg mb-2 hover:bg-green-600"
+          >
+            Read & Allow
+          </button>
+          <button
+            onclick="startActivity('listen')"
+            class="w-full bg-blue-500 text-white py-3 rounded-lg mb-2 hover:bg-blue-600"
+          >
+            Listen & Repeat
+          </button>
+          <button
+            onclick="startActivity('speech')"
+            class="w-full bg-orange-500 text-white py-3 rounded-lg mb-2 hover:bg-orange-600"
+          >
+            1-Min Speech
+          </button>
+          <button
+            onclick="startActivity('grammar')"
+            class="w-full bg-purple-500 text-white py-3 rounded-lg hover:bg-purple-600"
+          >
+            Grammar Check
+          </button>
+        </div>
+        <div id="resultPanel" class="bg-white p-6 rounded-lg shadow-lg">
+          <h2 class="text-2xl font-semibold mb-4">Results</h2>
+          <div id="results"></div>
+          <div id="grade" class="text-xl font-bold mt-4"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Face Recognition Setup [web:32]
+      Promise.all([
+        faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
+        faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
+        faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
+        faceapi.nets.faceExpressionNet.loadFromUri("/models"),
+      ]).then(startVideo);
+
+      function startVideo() {
+        navigator.mediaDevices.getUserMedia({ video: {} }).then((stream) => {
+          const video = document.getElementById("video");
+          video.srcObject = stream;
+          video.addEventListener("play", () => {
+            setInterval(async () => {
+              const detections = await faceapi
+                .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+                .withFaceLandmarks()
+                .withFaceExpressions();
+              const canvas = document.getElementById("canvas");
+              canvas.width = video.width;
+              canvas.height = video.height;
+              faceapi.draw.drawDetections(canvas, detections);
+              if (detections.length > 0) {
+                document.getElementById(
+                  "faceStatus"
+                ).textContent = `Face detected: ${detections[0].expressions.happy.toFixed(
+                  2
+                )} happy`;
+              }
+            }, 100);
+          });
+        });
+      }
+
+      let recognition, synthesis;
+      const referenceDescriptor = null; // Set from enrolled face
+
+      function startActivity(type) {
+        document
+          .querySelectorAll(".activity")
+          .forEach((el) => el.classList.remove("active"));
+        document.getElementById(type).classList.add("active");
+        if (
+          "SpeechRecognition" in window ||
+          "webkitSpeechRecognition" in window
+        ) {
+          recognition = new (window.SpeechRecognition ||
+            window.webkitSpeechRecognition)();
+          recognition.continuous = true;
+          recognition.interimResults = true;
+          recognition.onresult = handleSpeech;
+        }
+        if ("speechSynthesis" in window) synthesis = window.speechSynthesis;
+      }
+
+      function handleSpeech(event) {
+        let transcript = "";
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        checkGrammar(transcript);
+        updateResults(transcript);
+      }
+
+      async function checkGrammar(text) {
+        // Free grammar check via After the Deadline API [web:38]
+        const response = await fetch(
+          `https://api.afterthedeadline.com/grammar.json?name=check&text=${encodeURIComponent(
+            text
+          )}&key=demo`
+        );
+        const data = await response.json();
+        const errors = data ? data.error_count || 0 : 0;
+        const grade = Math.max(0, 100 - errors * 10); // Simple grade level check
+        document.getElementById(
+          "grade"
+        ).textContent = `Grade Level: ${grade}% (Errors: ${errors})`;
+      }
+
+      function updateResults(transcript) {
+        document.getElementById("results").innerHTML += `<p>${transcript}</p>`;
+      }
+
+      // Activity specifics
+      function readAloud() {
+        /* TTS for read */ synthesis.speak(
+          new SpeechSynthesisUtterance("Read this text aloud.")
+        );
+        recognition.start();
+      }
+      function listenRepeat() {
+        /* Listen & repeat */ synthesis.speak(
+          new SpeechSynthesisUtterance("Repeat after me: Hello world.")
+        );
+        recognition.start();
+      }
+      function oneMinuteSpeech() {
+        recognition.start();
+        setTimeout(() => recognition.stop(), 60000);
+      }
+      // Wire buttons to functions in activities div
+
+      // Error checking: Validate presence, grammar, fluency via scores
+    </script>
+  </body>
+</html>

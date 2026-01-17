@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Listen & Repeat</title>
+    <style>
+      body {
+        font-family: Arial;
+        background: #f5f8fb;
+        margin: 0;
+      }
+      .header {
+        background: #0b3c6f;
+        color: white;
+        padding: 15px;
+        font-size: 20px;
+        text-align: center;
+      }
+      .container {
+        margin: 20px auto;
+        width: 80%;
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+      }
+      .question-box {
+        background: #2c2c2c;
+        color: white;
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+      .timer-circle {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: #4aa3c7;
+        color: white;
+        font-size: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 20px auto;
+      }
+      button {
+        padding: 10px 25px;
+        font-size: 16px;
+        background: #2c7be5;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">SECTION A: Reading & Listening</div>
+
+    <div class="container">
+      <div class="question-box">
+        <h3 id="questionNumber"></h3>
+        <p id=""></p>
+      </div>
+
+      <!-- Audio -->
+      <audio id="audio" controls></audio>
+
+      <!-- Timer -->
+      <div class="timer-circle"><span id="timer">15</span> Sec</div>
+
+      <button id="playBtn" onclick="playAudio()">Play Audio</button>
+      <button id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
+    </div>
+
+    <script>
+      const questions = {{ questions | tojson }};
+      let index = 0;
+      let timeLeft = 15;
+      let timer;
+      let mediaRecorder;
+      let audioChunks = [];
+
+      const questionNumber = document.getElementById("questionNumber");
+      const questionText = document.getElementById("questionText");
+      const audio = document.getElementById("audio");
+      const playBtn = document.getElementById("playBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const timerEl = document.getElementById("timer");
+
+      function loadQuestion(){
+          if(index >= questions.length){
+              window.location.href = "/result";
+              return;
+          }
+
+          const q = questions[index];
+          questionNumber.innerText = "Question #" + (index+1);
+          questionText.innerText = q.question_text;
+          audio.src = "/static/audio/" + q.audio_file;
+
+          playBtn.disabled = false;
+          nextBtn.disabled = true;
+          timeLeft = 15;
+          timerEl.innerText = timeLeft;
+      }
+
+      // Play audio and start timer + recording
+      function playAudio(){
+          playBtn.disabled = true;
+          audio.play().catch(err=>{
+              alert("Click Play Audio to allow sound");
+          });
+
+          // Timer countdown
+          clearInterval(timer);
+          timeLeft = 15;
+          timer = setInterval(()=>{
+              timeLeft--;
+              timerEl.innerText = timeLeft;
+              if(timeLeft <= 0){
+                  clearInterval(timer);
+              }
+          },1000);
+
+          // Start microphone recording after audio ends
+          audio.onended = function(){
+              startRecording();
+          }
+      }
+
+      function startRecording(){
+          nextBtn.disabled = true;
+          navigator.mediaDevices.getUserMedia({audio:true})
+          .then(stream=>{
+              mediaRecorder = new MediaRecorder(stream);
+              audioChunks = [];
+              mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+              mediaRecorder.onstop = e => {
+                  // recording stopped, you can save audioChunks
+                  console.log("Recording completed");
+                  nextBtn.disabled = false; // enable next
+              }
+              mediaRecorder.start();
+              let recTime = 15;
+              timerEl.innerText = recTime;
+              let recTimer = setInterval(()=>{
+                  recTime--;
+                  timerEl.innerText = recTime;
+                  if(recTime <= 0){
+                      clearInterval(recTimer);
+                      mediaRecorder.stop();
+                      stream.getTracks().forEach(track => track.stop());
+                  }
+              },1000);
+          })
+          .catch(err=>{
+              alert("Microphone access denied!");
+              nextBtn.disabled = false;
+          });
+      }
+
+      function nextQuestion(){
+          clearInterval(timer);
+          if(mediaRecorder && mediaRecorder.state !== "inactive"){
+              mediaRecorder.stop();
+          }
+          index++;
+          loadQuestion();
+      }
+
+      // Load first question
+      loadQuestion();
+    </script>
+  </body>
+</html>

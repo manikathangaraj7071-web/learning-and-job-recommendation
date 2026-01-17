@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Listen & Repeat</title>
+  </head>
+
+  <body>
+    <h2>Listen & Repeat</h2>
+    <p id="progress"></p>
+
+    <button onclick="playAudio()">▶ Play Audio</button>
+    <button onclick="startTimer()">🎤 Speak</button>
+
+    <p>Timer: <span id="timer">15</span></p>
+
+    <audio id="audio" preload="metadata"></audio>
+
+    <script>
+      const questions = [
+      {% for q in questions %}
+          "{{ url_for('static', filename=q.audio_file) }}",
+      {% endfor %}
+      ];
+
+      let index = 0;
+      let time = 15;
+      let interval = null;
+
+      const audio = document.getElementById("audio");
+      const timerEl = document.getElementById("timer");
+      const progress = document.getElementById("progress");
+
+      function loadQuestion(){
+          audio.src = questions[index];
+          progress.innerText = (index + 1) + " / " + questions.length;
+          resetTimer();
+      }
+
+      function playAudio(){
+          audio.currentTime = 0;
+          audio.play();
+      }
+
+      function startTimer(){
+          clearInterval(interval);
+          time = 15;
+          timerEl.innerText = time;
+
+          interval = setInterval(()=>{
+              time--;
+              timerEl.innerText = time;
+
+              if(time === 0){
+                  clearInterval(interval);
+                  nextQuestion();
+              }
+          },1000);
+      }
+
+      function resetTimer(){
+          clearInterval(interval);
+          time = 15;
+          timerEl.innerText = time;
+      }
+
+      function nextQuestion(){
+          if(index < questions.length - 1){
+              index++;
+              loadQuestion();
+          } else {
+              alert("Test Completed!");
+          }
+      }
+
+      loadQuestion();
+    </script>
+  </body>
+</html>

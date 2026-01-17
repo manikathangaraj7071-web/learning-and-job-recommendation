@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Listen & Repeat Test</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: #e6ecf0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .card {
+        background: #fff;
+        width: 520px;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        padding: 40px;
+        text-align: center;
+      }
+
+      h1 {
+        color: #0b63ce;
+        margin-bottom: 20px;
+      }
+
+      #timer-container {
+        margin-bottom: 20px;
+        text-align: left;
+      }
+
+      #timer-text {
+        font-weight: bold;
+        color: #dc3545;
+        margin-bottom: 6px;
+      }
+
+      #timer-bar {
+        width: 100%;
+        background: #ddd;
+        height: 12px;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      #timer-fill {
+        width: 100%;
+        height: 100%;
+        background: #dc3545;
+        transition: width 1s linear;
+      }
+
+      #progress {
+        margin: 15px 0;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      /* WhatsApp-style audio bubble */
+      .audio-line {
+        background: #25d366;
+        height: 45px;
+        border-radius: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 20px auto;
+        padding: 0 20px;
+        font-size: 16px;
+      }
+
+      button {
+        padding: 12px 25px;
+        font-size: 16px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        margin: 10px 5px 0 5px;
+        transition: all 0.3s ease;
+      }
+
+      #speak-btn {
+        background: #28a745;
+        color: #fff;
+      }
+      #speak-btn:hover {
+        background: #1e7e34;
+        transform: translateY(-2px);
+      }
+
+      #next-btn {
+        background: #6c757d;
+        color: #fff;
+      }
+      #next-btn:hover {
+        background: #5a6268;
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Listen & Repeat Test</h1>
+
+      <!-- Timer -->
+      <div id="timer-container">
+        <div id="timer-text">Time Left: <span id="time">30</span>s</div>
+        <div id="timer-bar">
+          <div id="timer-fill"></div>
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div id="progress">{{ index }} / {{ total }}</div>
+
+      <!-- Audio Bubble -->
+      <div class="audio-line" onclick="playAudio()">🎵 Tap to Play</div>
+      <audio id="questionAudio" preload="auto">
+        <source
+          src="{{ url_for('static', filename='audio/' + question.audio_file) }}"
+          type="audio/mpeg"
+        />
+      </audio>
+
+      <!-- Hidden form -->
+      <form
+        id="answerForm"
+        action="{{ url_for('listen_repeat_next') }}"
+        method="POST"
+        style="display: none"
+      >
+        <input type="hidden" id="spoken_text" name="spoken_text" />
+        <input
+          type="hidden"
+          name="correct_text"
+          value="{{ question.correct_text }}"
+        />
+      </form>
+
+      <!-- Buttons -->
+      <button id="speak-btn" onclick="startDictation()">🎤 Speak</button>
+      <button id="next-btn" onclick="submitNext()">Next</button>
+    </div>
+
+    <script>
+      // ---------------- TIMER ----------------
+      let timeLeft = 30;
+      const timerEl = document.getElementById("time");
+      const timerFill = document.getElementById("timer-fill");
+
+      const timerInterval = setInterval(() => {
+        timeLeft--;
+        timerEl.textContent = timeLeft;
+        timerFill.style.width = (timeLeft / 30) * 100 + "%";
+
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          document.getElementById("answerForm").submit();
+        }
+      }, 1000);
+
+      // ---------------- AUDIO PLAY ----------------
+      function playAudio() {
+        const audio = document.getElementById("questionAudio");
+        audio.play();
+      }
+
+      window.onload = function () {
+        playAudio(); // autoplay when question loads
+      };
+
+      // ---------------- SPEECH INPUT ----------------
+      function startDictation() {
+        if (!window.hasOwnProperty("webkitSpeechRecognition")) {
+          alert("Your browser does not support speech recognition.");
+          return;
+        }
+
+        var recognition = new webkitSpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = "en-US";
+        recognition.start();
+
+        recognition.onresult = function (e) {
+          document.getElementById("spoken_text").value =
+            e.results[0][0].transcript;
+          alert("Speech captured! Click Next to submit.");
+        };
+
+        recognition.onerror = function (e) {
+          recognition.stop();
+          alert("Error: " + e.error);
+        };
+      }
+
+      // ---------------- NEXT BUTTON ----------------
+      function submitNext() {
+        document.getElementById("answerForm").submit();
+      }
+    </script>
+  </body>
+</html>

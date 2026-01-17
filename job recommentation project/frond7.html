@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Domain Selection</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #1e3c72, #2a5298);
+        text-align: center;
+        color: white;
+      }
+
+      .container {
+        margin-top: 80px;
+      }
+
+      .domain-btn {
+        display: block;
+        width: 300px;
+        margin: 15px auto;
+        padding: 15px;
+        font-size: 18px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Select Your Company</h1>
+
+      <button class="domain-btn" onclick="selectDomain('Microsoft')">
+        <a href="04.html">Microsoft</a>
+      </button>
+      <button
+        class="domain-btn"
+        onclick="selectDomain(Tata Consultancy Services')"
+      >
+        <a href="11.html">Tata Consultancy Services</a>
+      </button>
+      <button class="domain-btn" onclick="selectDomain('Google (Alphabet)')">
+        <a href="05.html">Google (Alphabet)</a>
+      </button>
+      <button
+        class="domain-btn"
+        onclick="selectDomain('Amazon (focusing on cloud/AWS)')"
+      >
+        <a href="03.html">Amazon (focusing on cloud/AWS)</a>
+      </button>
+      <button class="domain-btn" onclick="selectDomain('Apple')">
+        <a href="12.html">Apple</a>
+      </button>
+      <button class="domain-btn" onclick="selectDomain('Meta Platforms')">
+        <a href="13.html">Meta Platforms</a>
+      </button>
+      <button class="domain-btn" onclick="selectDomain('Salesforce')">
+        <a href="09.html"> Salesforce</a>
+      </button>
+      <button class="domain-btn" onclick="selectDomain('Infosys')">
+        <a href="14.html">Infosys</a>
+      </button>
+      <button class="domain-btn" onclick="selectDomain('Cognizant')">
+        <a href="15.html">Cognizant</a>
+      </button>
+    </div>
+
+    <script>
+      function selectDomain(domain) {
+        localStorage.setItem("selectedDomain", domain);
+        window.location.href = "company.html";
+      }
+    </script>
+  </body>
+</html>

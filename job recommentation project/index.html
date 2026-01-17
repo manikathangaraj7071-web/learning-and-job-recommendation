@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Job & Learning Recommendation Portal</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f1f5f9;
+        color: #1e293b;
+      }
+
+      /* Header */
+      header {
+        background: linear-gradient(to right, #0f172a, #1e40af);
+        color: white;
+        padding: 40px 20px;
+        text-align: center;
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 36px;
+      }
+
+      header p {
+        margin-top: 10px;
+        font-size: 17px;
+        color: #e2e8f0;
+      }
+
+      /* Container */
+      .container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 20px;
+      }
+
+      .container h2 {
+        text-align: center;
+        font-size: 30px;
+        margin-bottom: 15px;
+      }
+
+      .container .subtitle {
+        text-align: center;
+        font-size: 16px;
+        color: #475569;
+        margin-bottom: 40px;
+      }
+
+      /* Domain Grid */
+      .domain-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 30px;
+      }
+
+      .domain-card {
+        background: white;
+        border-radius: 14px;
+        padding: 30px 25px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-align: center;
+      }
+
+      .domain-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 18px 35px rgba(0, 0, 0, 0.18);
+      }
+
+      .domain-card img {
+        width: 80px;
+        margin-bottom: 20px;
+      }
+
+      .domain-card h3 {
+        font-size: 22px;
+        margin-bottom: 10px;
+      }
+
+      .domain-card p {
+        font-size: 14px;
+        color: #475569;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      .domain-card ul {
+        text-align: left;
+        font-size: 14px;
+        color: #334155;
+        padding-left: 20px;
+        margin-bottom: 20px;
+      }
+
+      .domain-card ul li {
+        margin-bottom: 6px;
+      }
+
+      .domain-card a {
+        display: inline-block;
+        padding: 10px 22px;
+        background: #1e40af;
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-size: 14px;
+        transition: background 0.3s ease;
+      }
+
+      .domain-card a:hover {
+        background: #0f172a;
+      }
+
+      /* Info Section */
+      .info-section {
+        margin-top: 70px;
+        background: white;
+        padding: 50px 20px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      .info-section h2 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+      }
+
+      .info-box {
+        background: #f8fafc;
+        padding: 25px;
+        border-radius: 10px;
+      }
+
+      .info-box h4 {
+        margin-bottom: 10px;
+        color: #1e40af;
+      }
+
+      .info-box p {
+        font-size: 14px;
+        color: #475569;
+        line-height: 1.6;
+      }
+
+      /* Footer */
+      footer {
+        background: #0f172a;
+        color: #cbd5e1;
+        text-align: center;
+        padding: 18px;
+        margin-top: 60px;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Job & Learning Recommendation System</h1>
+      <p>
+        Helping freshers choose the right career path with jobs & skill guidance
+      </p>
+    </header>
+
+    <div class="container">
+      <h2>Select Your Career Domain</h2>
+      <p class="subtitle">
+        Explore trending IT domains, top companies, required skills, and
+        learning paths
+      </p>
+
+      <div class="domain-grid">
+        <!-- Cloud Computing -->
+        <div class="domain-card">
+          <img src="https://cdn-icons-png.flaticon.com/512/4149/4149678.png" />
+          <h3>Cloud Computing</h3>
+          <p>
+            Build your career in cloud platforms, virtualization, and
+            infrastructure services.
+          </p>
+          <ul>
+            <li>AWS, Azure, Google Cloud</li>
+            <li>DevOps & Linux</li>
+            <li>Cloud Engineer roles</li>
+          </ul>
+          <a href="frond6.html">Explore Cloud Jobs</a>
+        </div>
+
+        <!-- Software Development -->
+        <div class="domain-card">
+          <img src="https://cdn-icons-png.flaticon.com/512/2721/2721297.png" />
+          <h3>Software Development</h3>
+          <p>
+            Learn programming and build applications used by millions of users.
+          </p>
+          <ul>
+            <li>Java, Python, JavaScript</li>
+            <li>Web & App Development</li>
+            <li>Software Engineer roles</li>
+          </ul>
+          <a href="frond7.html">Explore Dev Jobs</a>
+        </div>
+
+        <!-- Data Analytics -->
+        <div class="domain-card">
+          <img src="https://cdn-icons-png.flaticon.com/512/4727/4727496.png" />
+          <h3>Data Analytics</h3>
+          <p>Analyze data and help businesses make better decisions.</p>
+          <ul>
+            <li>Excel, SQL, Power BI</li>
+            <li>Python & Statistics</li>
+            <li>Data Analyst roles</li>
+          </ul>
+          <a href="frond8.html">Explore Data Jobs</a>
+        </div>
+
+        <!-- AI & ML -->
+        <div class="domain-card">
+          <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" />
+          <h3>AI & Machine Learning</h3>
+          <p>Work on intelligent systems and future-ready technologies.</p>
+          <ul>
+            <li>Machine Learning Models</li>
+            <li>Python & Deep Learning</li>
+            <li>AI Engineer roles</li>
+          </ul>
+          <a href="frond9.html">Explore AI Jobs</a>
+        </div>
+      </div>
+
+      <!-- Extra Info Section -->
+      <div class="info-section">
+        <h2>Why Choose Our Platform?</h2>
+
+        <div class="info-grid">
+          <div class="info-box">
+            <h4>🎯 Career Guidance</h4>
+            <p>
+              Get domain-wise job recommendations specially designed for
+              freshers.
+            </p>
+          </div>
+
+          <div class="info-box">
+            <h4>📘 Learning Path</h4>
+            <p>
+              Understand what skills, tools, and courses are required before
+              applying for jobs.
+            </p>
+          </div>
+
+          <div class="info-box">
+            <h4>🏢 Company Selection</h4>
+            <p>
+              Choose top IT companies and view their job roles and expectations.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      © 2025 Job & Learning Recommendation System | Designed for Freshers
+    </footer>
+  </body>
+</html>

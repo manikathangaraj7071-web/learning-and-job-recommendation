@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Job Finder & Learning Platform</title>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #f4f6fb;
+      }
+
+      /* NAVBAR */
+      .navbar {
+        background: #ffffff;
+        padding: 15px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .logo {
+        font-size: 22px;
+        font-weight: bold;
+        color: #2b2e4a;
+      }
+
+      .nav-links a {
+        margin-left: 20px;
+        text-decoration: none;
+        color: #333;
+        font-size: 16px;
+      }
+
+      .nav-links .btn {
+        padding: 8px 16px;
+        background-color: #ff3d6d;
+        color: #fff;
+        border-radius: 5px;
+      }
+
+      /* HERO SECTION */
+      .hero {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 60px 40px;
+        background-color: #eef1ff;
+      }
+
+      .hero-text {
+        width: 50%;
+      }
+
+      .hero-text h1 {
+        font-size: 42px;
+        color: #2b2e4a;
+      }
+
+      .hero-text p {
+        font-size: 18px;
+        color: #555;
+      }
+
+      .search-box {
+        margin-top: 25px;
+        display: flex;
+      }
+
+      .search-box input {
+        padding: 12px;
+        width: 260px;
+        border: none;
+        outline: none;
+      }
+
+      .search-box button {
+        padding: 12px 20px;
+        background: #ff3d6d;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      .hero img {
+        width: 350px;
+      }
+
+      /* PURPOSE SECTION */
+      .purpose {
+        padding: 50px 40px;
+        background: #ffffff;
+        text-align: center;
+      }
+
+      .purpose h2 {
+        font-size: 32px;
+        color: #2b2e4a;
+        margin-bottom: 20px;
+      }
+
+      .purpose p {
+        font-size: 16px;
+        color: #555;
+        line-height: 1.8;
+        max-width: 900px;
+        margin: auto;
+      }
+
+      /* CATEGORIES */
+      .categories {
+        padding: 60px 40px;
+        text-align: center;
+        background: #f4f6fb;
+      }
+
+      .categories h2 {
+        font-size: 30px;
+        color: #2b2e4a;
+        margin-bottom: 40px;
+      }
+
+      .category-box {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+      }
+
+      .card {
+        background: #ffffff;
+        width: 220px;
+        padding: 25px;
+        margin: 15px;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .card img {
+        width: 60px;
+        margin-bottom: 15px;
+      }
+
+      .card h3 {
+        color: #2b2e4a;
+        font-size: 18px;
+      }
+
+      .card p {
+        font-size: 14px;
+        color: #555;
+      }
+
+      /* FOOTER */
+      footer {
+        background: #2b2e4a;
+        color: #fff;
+        text-align: center;
+        padding: 15px;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+      <div class="logo">Job Finder</div>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Find Jobs</a>
+        <a href="#">Learning</a>
+        <a href="#">Contact</a>
+        <a href="#" class="btn">Login</a>
+      </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <div class="hero">
+      <div class="hero-text">
+        <h1>Find the Right Job & Build Your Career</h1>
+        <p>
+          Search jobs, learn skills, and prepare yourself for industry-ready
+          roles.
+        </p>
+        <div class="search-box">
+          <input type="text" placeholder="Job title or keyword" />
+          <button>Find Job</button>
+        </div>
+      </div>
+      <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" />
+    </div>
+
+    <!-- PURPOSE SECTION -->
+
+    <!-- CATEGORIES -->
+    <div class="categories">
+      <h2>Browse Top Career Domains</h2>
+      <div class="category-box">
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/4144/4144437.png" />
+          <h3>Cloud Computing</h3>
+          <p>AWS, Azure, DevOps, Cloud Security</p>
+        </div>
+
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/2920/2920244.png" />
+          <h3>Software Development</h3>
+          <p>Python, Java, Web & App Development</p>
+        </div>
+
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" />
+          <h3>Data Analytics</h3>
+          <p>SQL, Power BI, Data Visualization</p>
+        </div>
+
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/2103/2103633.png" />
+          <h3>AI & Machine Learning</h3>
+          <p>Deep Learning, NLP, Python</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>© 2025 Job Finder & Learning Platform | Final Year Project</footer>
+  </body>
+</html>

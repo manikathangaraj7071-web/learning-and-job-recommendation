@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Result</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Test Result</h1>
+      <h2>Your Score: {{ score }} / {{ total }}</h2>
+
+      {% if score >= total/2 %}
+      <p class="pass">Congratulations! You Passed 🎉</p>
+      {% else %}
+      <p class="fail">Better luck next time 😐</p>
+      {% endif %}
+
+      <a href="/" class="btn">Go Home</a>
+    </div>
+  </body>
+</html>

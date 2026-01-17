@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Communication Test</title>
+
+    <style>
+      body {
+        font-family: Arial;
+        background: #f5f8fb;
+      }
+      .header {
+        background: #0b3c6f;
+        color: white;
+        padding: 18px;
+        text-align: center;
+        font-size: 24px;
+      }
+      .box {
+        background: white;
+        max-width: 700px;
+        margin: 50px auto;
+        padding: 30px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+      }
+      .timer {
+        font-size: 22px;
+        color: #e74c3c;
+        margin: 15px;
+      }
+      button {
+        padding: 12px 25px;
+        margin: 8px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      #micBtn {
+        background: #0b3c6f;
+        color: white;
+      }
+      #nextBtn {
+        background: #28a745;
+        color: white;
+      }
+      #options button {
+        width: 100%;
+        background: #f1f1f1;
+      }
+      #options button.active {
+        background: #0b3c6f;
+        color: white;
+      }
+      audio {
+        width: 100%;
+        margin-top: 15px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="header">COMMUNICATION TEST</div>
+
+    <div class="box">
+      <h3 id="section"></h3>
+      <p id="question"></p>
+
+      <audio id="audio" style="display: none" controls></audio>
+
+      <div class="timer" id="timerBox" style="display: none">
+        ⏱ <span id="timer">0</span> sec
+      </div>
+
+      <div id="options"></div>
+
+      <button id="micBtn" style="display: none">🎤 Speak</button>
+      <button id="nextBtn">Next</button>
+    </div>
+
+    <script>
+      let questions = [],
+        index = 0,
+        score = 0;
+      let timerInt = null,
+        recognition = null,
+        micOn = false;
+      let selected = null;
+
+      const sectionEl = (section = document.getElementById("section"));
+      const questionEl = document.getElementById("question");
+      const timerBox = document.getElementById("timerBox");
+      const timerEl = document.getElementById("timer");
+      const audio = document.getElementById("audio");
+      const micBtn = document.getElementById("micBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const options = document.getElementById("options");
+
+      /* FETCH QUESTIONS */
+      fetch("/get_questions")
+        .then((r) => r.json())
+        .then((d) => {
+          questions = d;
+          loadQuestion();
+        });
+
+      /* TIMER */
+      function stopTimer() {
+        if (timerInt) {
+          clearInterval(timerInt);
+          timerInt = null;
+        }
+      }
+      function startTimer(sec, cb = null) {
+        stopTimer();
+        timerBox.style.display = "block";
+        timerEl.innerText = sec;
+        timerInt = setInterval(() => {
+          sec--;
+          timerEl.innerText = sec;
+          if (sec <= 0) {
+            stopTimer();
+            if (cb) cb();
+          }
+        }, 1000);
+      }
+
+      /* MIC */
+      function startMic() {
+        if (!("webkitSpeechRecognition" in window))
+          return alert("No mic support");
+        micOn = true;
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = "en-US";
+        recognition.continuous = true;
+
+        recognition.onresult = () => score++;
+
+        recognition.onend = () => {
+          if (micOn) recognition.start();
+        };
+        recognition.start();
+      }
+      function stopMic() {
+        micOn = false;
+        if (recognition) {
+          recognition.stop();
+          recognition = null;
+        }
+      }
+
+      /* LOAD QUESTION */
+      function loadQuestion() {
+        stopTimer();
+        stopMic();
+        selected = null;
+
+        if (index >= questions.length) {
+          window.location.href = "/result?score=" + score;
+          return;
+        }
+
+        let q = questions[index];
+        sectionEl.innerText = q.section;
+        questionEl.innerText = "";
+        options.innerHTML = "";
+        micBtn.style.display = "none";
+        timerBox.style.display = "none";
+        audio.style.display = "none";
+        audio.pause();
+
+        /* PART A */
+        if (q.type === "read_mic") {
+          questionEl.innerText = q.question_text;
+          micBtn.style.display = "inline-block";
+          startTimer(15);
+        }
+
+        /* PART B */
+        if (q.type === "audio_mic") {
+          audio.src = "/static/" + q.audio_file;
+          audio.style.display = "block";
+          audio.play();
+          audio.onended = () => startTimer(15);
+          micBtn.style.display = "inline-block";
+        }
+
+        /* PART C */
+        if (q.type === "prep_speak") {
+          questionEl.innerText = q.question_text;
+
+          // preparation
+          startTimer(45, () => {
+            micBtn.style.display = "inline-block";
+            startMic();
+
+            // speaking 60 sec (mic stays ON)
+            startTimer(60);
+          });
+        }
+
+        /* PART D */
+        if (q.type === "mcq") {
+          questionEl.innerText = q.question_text;
+          q.options.forEach((o) => {
+            let b = document.createElement("button");
+            b.innerText = o;
+            b.onclick = () => {
+              selected = o;
+              document
+                .querySelectorAll("#options button")
+                .forEach((x) => x.classList.remove("active"));
+              b.classList.add("active");
+            };
+            options.appendChild(b);
+          });
+        }
+      }
+
+      /* BUTTONS */
+      micBtn.onclick = startMic;
+
+      nextBtn.onclick = () => {
+        stopTimer();
+        stopMic();
+        let q = questions[index];
+        if (q.type === "mcq" && selected === q.correct_answer) score++;
+        index++;
+        loadQuestion();
+      };
+    </script>
+  </body>
+</html>

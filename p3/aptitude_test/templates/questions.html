@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Aptitude Questions</title>
+    <style>
+      body {
+        font-family: Arial;
+        background: #f2f2f2;
+        padding: 20px;
+      }
+      .box {
+        background: white;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Aptitude Test</h2>
+
+    {% for q in questions %}
+    <div class="box">
+      <p><b>{{ loop.index }}. {{ q.question }}</b></p>
+      <p>A. {{ q.option1 }}</p>
+      <p>B. {{ q.option2 }}</p>
+      <p>C. {{ q.option3 }}</p>
+      <p>D. {{ q.option4 }}</p>
+    </div>
+    {% endfor %}
+  </body>
+</html>

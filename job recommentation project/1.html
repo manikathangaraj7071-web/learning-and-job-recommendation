@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Company Selection</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f1f5f9;
+      }
+
+      header {
+        background: #0f172a;
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 30px auto;
+        text-align: center;
+      }
+
+      .company {
+        background: white;
+        padding: 15px;
+        margin: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      }
+
+      .company:hover {
+        background: #2563eb;
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Select Company</h1>
+      <p id="domainName"></p>
+    </header>
+
+    <div class="container" id="companyList"></div>
+
+    <script>
+      const companies = {
+        cloud: [
+          "AWS",
+          "Microsoft Azure",
+          "Google Cloud",
+          "IBM Cloud",
+          "Oracle Cloud",
+        ],
+        software: ["TCS", "Infosys", "Wipro", "Accenture", "Cognizant"],
+        data: ["Deloitte", "PwC", "EY", "KPMG", "Capgemini"],
+        ai: ["Google AI", "Microsoft AI", "OpenAI", "NVIDIA", "Amazon AI"],
+      };
+
+      const domain = localStorage.getItem("selectedDomain");
+      document.getElementById("domainName").innerText =
+        "Domain: " + domain.toUpperCase();
+
+      const list = document.getElementById("companyList");
+
+      companies[domain].forEach((company) => {
+        const div = document.createElement("div");
+        div.className = "company";
+        div.innerText = company;
+        div.onclick = () => {
+          localStorage.setItem("selectedCompany", company);
+          window.location.href = "learning.html";
+        };
+        list.appendChild(div);
+      });
+    </script>
+  </body>
+</html>

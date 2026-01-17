@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Results</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <style>
+      .result-card {
+        max-width: 500px;
+      }
+      .score {
+        font-size: 48px;
+        color: #1a73e8;
+        margin: 20px 0;
+      }
+      .percentage {
+        font-size: 24px;
+        color: #34a853;
+      }
+      .retry-btn {
+        background: #1a73e8;
+        padding: 12px 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card result-card">
+      <h1>🎉 Test Complete!</h1>
+      <div class="score">{{ score }} / {{ total }}</div>
+      <div class="percentage">{{ "%.1f"|format((score/total)*100) }}%</div>
+      <a href="{{ url_for('listen_repeat') }}" class="btn retry-btn"
+        >🔄 Try Again</a
+      >
+      <a href="{{ url_for('home') }}" class="btn next-btn">🏠 Home</a>
+    </div>
+  </body>
+</html>

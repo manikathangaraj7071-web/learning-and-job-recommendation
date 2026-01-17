@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Speak Test</title>
+    <style>
+      body {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        font-family: Arial;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+      }
+
+      .card {
+        background: white;
+        width: 450px;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        text-align: center;
+      }
+
+      .question {
+        font-size: 18px;
+        margin: 20px 0;
+        color: #333;
+      }
+
+      #timer {
+        font-size: 30px;
+        color: red;
+        font-weight: bold;
+      }
+
+      .status {
+        margin-top: 10px;
+        font-size: 14px;
+        color: green;
+      }
+
+      .next-btn {
+        margin-top: 20px;
+        padding: 10px 25px;
+        border: none;
+        background: #2a9d8f;
+        color: white;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h2>Question {{ qno }} / {{ total }}</h2>
+
+      <div class="question">{{ question.question_text }}</div>
+
+      <div id="timer">15</div>
+
+      <form method="POST" action="/submit_speak/{{ qno }}">
+        <!-- hidden answer -->
+        <input type="hidden" name="answer" id="answer" />
+        <button class="next-btn">Next</button>
+      </form>
+
+      <div class="status" id="status">🎤 Mic listening automatically...</div>
+    </div>
+
+    <script>
+      let time = 15;
+      let recognition;
+
+      // timer
+      let countdown = setInterval(() => {
+        document.getElementById("timer").innerText = time;
+        time--;
+
+        if (time < 0) {
+          clearInterval(countdown);
+          recognition.stop();
+          document.forms[0].submit();
+        }
+      }, 1000);
+
+      // auto mic start
+      window.onload = () => {
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = "en-US";
+        recognition.continuous = true;
+
+        recognition.onresult = function (event) {
+          let spoken = "";
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            spoken += event.results[i][0].transcript + " ";
+          }
+          document.getElementById("answer").value = spoken.toLowerCase();
+        };
+
+        recognition.start();
+      };
+    </script>
+  </body>
+</html>

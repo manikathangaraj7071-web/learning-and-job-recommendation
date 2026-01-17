@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Listen & Repeat Test</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f0f2f5;
+      }
+      .card {
+        background: #fff;
+        padding: 50px 60px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        width: 500px;
+      }
+      h1 {
+        color: #0b63ce;
+        margin-bottom: 20px;
+      }
+      p {
+        font-size: 20px;
+        margin-bottom: 25px;
+        color: #333;
+      }
+      button {
+        padding: 15px 30px;
+        background: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 18px;
+        transition: all 0.3s ease;
+        margin: 10px 5px 0 5px;
+      }
+      button:hover {
+        background: #1e7e34;
+        transform: translateY(-2px);
+      }
+      #timer {
+        font-size: 20px;
+        margin-bottom: 20px;
+        color: #dc3545;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Listen & Repeat Test</h1>
+      <div id="timer">Time Left: <span id="time">30</span>s</div>
+
+      <p>{{ index }} / {{ total }}</p>
+
+      <!-- Audio Playback -->
+      {% if question.audio_file %}
+      <audio id="questionAudio" controls autoplay>
+        <source
+          src="{{ url_for('static', filename='audio/' + question.audio_file) }}"
+          type="audio/mpeg"
+        />
+        Your browser does not support the audio element.
+      </audio>
+      {% else %}
+      <p>{{ question.question_text }}</p>
+      {% endif %}
+
+      <!-- Hidden form to submit speech -->
+      <form
+        id="answerForm"
+        action="{{ url_for('listen_repeat_next') }}"
+        method="POST"
+        style="display: none"
+      >
+        <input type="hidden" id="spoken_text" name="spoken_text" />
+        <input
+          type="hidden"
+          name="correct_text"
+          value="{{ question.correct_text }}"
+        />
+      </form>
+
+      <!-- Buttons -->
+      <button onclick="startDictation()">🎤 Speak</button>
+      <button onclick="submitNext()">Next</button>
+    </div>
+
+    <script>
+      // ---------------- TIMER ----------------
+      let timeLeft = 30;
+      const timerEl = document.getElementById("time");
+      const timerInterval = setInterval(() => {
+        timeLeft--;
+        timerEl.textContent = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          document.getElementById("answerForm").submit(); // auto-submit
+        }
+      }, 1000);
+
+      // ---------------- SPEECH INPUT ----------------
+      function startDictation() {
+        if (!window.hasOwnProperty("webkitSpeechRecognition")) {
+          alert("Your browser does not support speech recognition.");
+          return;
+        }
+
+        var recognition = new webkitSpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = "en-US";
+        recognition.start();
+
+        recognition.onresult = function (e) {
+          document.getElementById("spoken_text").value =
+            e.results[0][0].transcript;
+          alert("Speech captured! Click Next to submit.");
+        };
+
+        recognition.onerror = function (e) {
+          recognition.stop();
+          alert("Error: " + e.error);
+        };
+      }
+
+      // ---------------- NEXT BUTTON ----------------
+      function submitNext() {
+        document.getElementById("answerForm").submit();
+      }
+    </script>
+  </body>
+</html>

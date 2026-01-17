@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Speak Test</title>
+  </head>
+  <body>
+    <h2>1 Minute Speak Test</h2>
+
+    <button onclick="startRecording()">🎤 Start Speaking</button>
+    <p id="status"></p>
+
+    <script>
+      let recognition;
+
+      function startRecording() {
+        if (!("webkitSpeechRecognition" in window)) {
+          alert("Your browser does not support microphone");
+          return;
+        }
+
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = "en-US";
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        recognition.start();
+        document.getElementById("status").innerText = "Listening... 🎧";
+
+        recognition.onresult = function (event) {
+          const text = event.results[0][0].transcript;
+          document.getElementById("status").innerText = "You said: " + text;
+        };
+
+        recognition.onerror = function () {
+          document.getElementById("status").innerText = "Microphone Error ❌";
+        };
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+body {
+  font-family: Arial;
+  background: #f5f5f5;
+  text-align: center;
+}
+
+.container {
+  background: white;
+  width: 400px;
+  margin: 80px auto;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px gray;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.timer {
+  font-size: 18px;
+  color: red;
+}
+
+audio {
+  margin-top: 20px;
+  width: 100%;
+}

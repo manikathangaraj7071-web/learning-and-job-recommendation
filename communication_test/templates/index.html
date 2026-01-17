@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Communication Test</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <style>
+      .home-card {
+        width: 400px;
+        margin: 50px auto;
+        text-align: center;
+      }
+      .start-btn {
+        padding: 15px 40px;
+        font-size: 18px;
+        background: #1a73e8;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+      }
+      .start-btn:hover {
+        background: #1557b0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="home-card card">
+      <h1>🎤 Communication Test</h1>
+      <p>Test your listening and speaking skills!</p>
+      <a href="{{ url_for('listen_repeat') }}" class="start-btn"
+        >Start Listen & Repeat</a
+      >
+    </div>
+  </body>
+</html>

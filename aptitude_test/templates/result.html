@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test Result</title>
+    <style>
+      /* General body styling */
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f0f4f8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      /* Card container */
+      .result-card {
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        width: 400px;
+      }
+
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 28px;
+      }
+
+      h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #555;
+      }
+
+      h3 {
+        font-size: 20px;
+        margin-bottom: 30px;
+      }
+
+      h3.pass {
+        color: #28a745; /* green */
+      }
+
+      h3.fail {
+        color: #dc3545; /* red */
+      }
+
+      /* Button styling */
+      .home-btn {
+        padding: 10px 25px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+
+      .home-btn:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="result-card">
+      <h1>Test Result</h1>
+      <h2>Your Score: {{ score }} / {{ total }}</h2>
+
+      {% if score >= total/2 %}
+      <h3 class="pass">Congratulations! You Passed 🎉</h3>
+      {% else %}
+      <h3 class="fail">Better Luck Next Time ❌</h3>
+      {% endif %}
+
+      <a href="/" class="home-btn">Go Home</a>
+    </div>
+  </body>
+</html>

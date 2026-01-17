@@ -1,0 +1,94 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+  background: #f6f7f9;
+}
+
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.intro-card {
+  background: #ffffff;
+  width: 900px;
+  display: flex;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+/* LEFT CONTENT */
+.content {
+  padding: 40px;
+  width: 60%;
+}
+
+.content h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.content h3 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.content p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.details,
+.instructions {
+  margin-left: 20px;
+  color: #444;
+}
+
+.details li,
+.instructions li {
+  margin-bottom: 8px;
+}
+
+.start-text {
+  margin-top: 20px;
+  color: #444;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 12px 40px;
+  background: #43a047;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #2e7d32;
+}
+
+/* RIGHT IMAGE */
+.image-box {
+  width: 40%;
+  background: #eef2f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-box img {
+  width: 85%;
+}
