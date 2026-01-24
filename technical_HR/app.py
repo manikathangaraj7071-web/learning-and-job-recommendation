@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request, redirect, session
 import mysql.connector
-import subprocess
-import tempfile
 import os
 import random
 
@@ -15,19 +13,17 @@ app.secret_key = "interview_secret"
 # ---------------- DATABASE ----------------
 def get_db():
     return mysql.connector.connect(
-        host=os.environ.get("MYSQLHOST"),
-        user=os.environ.get("MYSQLUSER"),
-        password=os.environ.get("MYSQLPASSWORD"),
-        database=os.environ.get("MYSQLDATABASE"),
-        port=int(os.environ.get("MYSQLPORT"))
+        host=os.getenv("MYSQLHOST"),
+        user=os.getenv("MYSQLUSER"),
+        password=os.getenv("MYSQLPASSWORD"),
+        database=os.getenv("MYSQLDATABASE"),
+        port=int(os.getenv("MYSQLPORT", 3306))
     )
-
 
 # ---------------- START ----------------
 @app.route("/")
 def start():
     session.clear()
-
     session["hr_index"] = 0
     session["tech_index"] = 0
     session["code_index"] = 0
@@ -148,54 +144,23 @@ def code_round():
     if request.method == "POST":
         action = request.form.get("action", "next")
         user_code = request.form.get("code", "")
-
         session["code_answers"][str(index)] = user_code
 
         if action == "prev":
             session["code_index"] -= 1
             return redirect("/code")
 
-        # -------- RUN CODE --------
-        if action in ["run", "next", "finish"]:
-            with tempfile.TemporaryDirectory() as tmp:
-                c_file = os.path.join(tmp, "prog.c")
-                exe_file = os.path.join(tmp, "prog.exe")
+        # ------------------------
+        # C CODE EXECUTION DISABLED FOR CLOUD
+        result = "Code execution disabled in online deploy."
 
-                with open(c_file, "w") as f:
-                    f.write(user_code)
+        if action == "next":
+            session["code_index"] += 1
+        if action == "finish":
+            session["code_index"] = len(questions)
 
-                compile_run = subprocess.run(
-                    ["gcc", c_file, "-o", exe_file],
-                    capture_output=True,
-                    text=True
-                )
-
-                if compile_run.returncode != 0:
-                    result = compile_run.stderr
-                else:
-                    run = subprocess.run(
-                        [exe_file],
-                        input=question.get("sample_input", ""),
-                        capture_output=True,
-                        text=True
-                    )
-
-                    output = run.stdout.strip()
-                    expected = question["sample_output"].strip()
-
-                    if output == expected:
-                        result = "Correct Output ✅"
-                        session["code_score"] += 1
-                    else:
-                        result = f"Wrong Output ❌\nYour Output: {output}\nExpected: {expected}"
-
-            if action == "next":
-                session["code_index"] += 1
-            if action == "finish":
-                session["code_index"] = len(questions)
-
-            session["code_result"] = result
-            return redirect("/code")
+        session["code_result"] = result
+        return redirect("/code")
 
     return render_template(
         "code_round.html",
@@ -221,7 +186,7 @@ def result():
     tech_per = (tech_score / tech_total) * 100 if tech_total else 0
     code_per = (code_score / code_total) * 100 if code_total else 0
 
-    total_score = hr_score + tech_score + code_score  # total score
+    total_score = hr_score + tech_score + code_score
     status = "Selected" if (hr_per >= 70 and tech_per >= 70 and code_per >= 70) else "Not Selected"
 
     return render_template(
