@@ -23,6 +23,7 @@ def get_db():
 # ---------------- START ----------------
 @app.route("/")
 def start():
+    # Clear session and initialize all variables safely
     session.clear()
     session["hr_index"] = 0
     session["tech_index"] = 0
@@ -43,6 +44,13 @@ def start():
 # ---------------- HR ROUND ----------------
 @app.route("/hr", methods=["GET", "POST"])
 def hr_round():
+    if "hr_q" not in session:
+        session["hr_q"] = []
+    if "hr_answers" not in session:
+        session["hr_answers"] = []
+    if "hr_index" not in session:
+        session["hr_index"] = 0
+
     db = get_db()
     cur = db.cursor(dictionary=True)
     cur.execute("SELECT * FROM tech_hr_questions")
@@ -79,6 +87,13 @@ def hr_round():
 # ---------------- TECHNICAL MCQ ----------------
 @app.route("/technical", methods=["GET", "POST"])
 def technical_round():
+    if "tech_q" not in session:
+        session["tech_q"] = []
+    if "tech_index" not in session:
+        session["tech_index"] = 0
+    if "tech_score" not in session:
+        session["tech_score"] = 0
+
     db = get_db()
     cur = db.cursor(dictionary=True)
     cur.execute("SELECT * FROM tech_questions")
@@ -116,6 +131,15 @@ def technical_round():
 # ---------------- C CODING ROUND ----------------
 @app.route("/code", methods=["GET", "POST"])
 def code_round():
+    if "code_q" not in session:
+        session["code_q"] = []
+    if "code_index" not in session:
+        session["code_index"] = 0
+    if "code_score" not in session:
+        session["code_score"] = 0
+    if "code_answers" not in session:
+        session["code_answers"] = {}
+
     db = get_db()
     cur = db.cursor(dictionary=True)
     cur.execute("SELECT * FROM code_questions")
@@ -151,7 +175,7 @@ def code_round():
             return redirect("/code")
 
         # ------------------------
-        # C CODE EXECUTION DISABLED FOR CLOUD
+        # C CODE EXECUTION DISABLED FOR ONLINE DEPLOY
         result = "Code execution disabled in online deploy."
 
         if action == "next":
@@ -174,13 +198,13 @@ def code_round():
 # ---------------- RESULT ----------------
 @app.route("/result")
 def result():
-    hr_total = len(session["hr_q"])
-    tech_total = len(session["tech_q"])
-    code_total = len(session["code_q"])
+    hr_total = len(session.get("hr_q", []))
+    tech_total = len(session.get("tech_q", []))
+    code_total = len(session.get("code_q", []))
 
-    hr_score = len([a for a in session["hr_answers"] if a and a.strip()])
-    tech_score = session["tech_score"]
-    code_score = session["code_score"]
+    hr_score = len([a for a in session.get("hr_answers", []) if a and a.strip()])
+    tech_score = session.get("tech_score", 0)
+    code_score = session.get("code_score", 0)
 
     hr_per = (hr_score / hr_total) * 100 if hr_total else 0
     tech_per = (tech_score / tech_total) * 100 if tech_total else 0
