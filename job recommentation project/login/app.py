@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "render_secret")
 
-# ---------- DB ----------
+# ---------- DATABASE CONNECTION ----------
 def get_db():
     return mysql.connector.connect(
         host=os.getenv("MYSQLHOST", "localhost"),
@@ -15,7 +15,7 @@ def get_db():
         port=int(os.getenv("MYSQLPORT", 3306))
     )
 
-# ---------- LOGIN (FIRST PAGE) ----------
+# ---------- LOGIN (INDEX PAGE) ----------
 @app.route("/", methods=["GET", "POST"])
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -38,7 +38,7 @@ def login():
         else:
             error = "Username or Password mismatch ❌"
 
-    return render_template("login.html", error=error)
+    return render_template("index.html", error=error)
 
 # ---------- REGISTER ----------
 @app.route("/register", methods=["GET", "POST"])
@@ -66,26 +66,25 @@ def register():
             cur.close()
             db.close()
 
-            # 🔁 IMPORTANT: redirect to login
+            # redirect to login page
             return redirect("/login")
 
         cur.close()
         db.close()
 
     return render_template("register.html", msg=msg)
-@app.route("/front5")
-def front5():
-    return "This is front5"
-
-
-
 
 # ---------- DASHBOARD ----------
 @app.route("/dashboard")
 def dashboard():
     if "user" not in session:
         return redirect("/login")
-    return f"<h2>Welcome {session['user']} 🎉</h2><a href='/logout'>Logout</a>"
+
+    return f"""
+        <h2>Welcome {session['user']} 🎉</h2>
+        <p>Login successful</p>
+        <a href="/logout">Logout</a>
+    """
 
 # ---------- LOGOUT ----------
 @app.route("/logout")
@@ -93,5 +92,6 @@ def logout():
     session.clear()
     return redirect("/login")
 
+# ---------- START SERVER ----------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
