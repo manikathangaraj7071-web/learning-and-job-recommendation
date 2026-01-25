@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
   <head>
+    <meta charset="UTF-8" />
     <title>Technical Round</title>
     <link rel="stylesheet" href="/static/style.css" />
   </head>
@@ -12,30 +13,20 @@
 
       <form method="post">
         <div class="options">
-          <label
-            ><input
+          {% for i in range(1,5) %} {% set opt = "option" ~ i %}
+          <label>
+            <input
               type="radio"
               name="answer"
-              value="{{ question.option1 }}"
+              value="{{ question[opt] }}"
               required
             />
-            {{ question.option1 }}</label
+            {{ question[opt] }} </label
           ><br />
-          <label
-            ><input type="radio" name="answer" value="{{ question.option2 }}" />
-            {{ question.option2 }}</label
-          ><br />
-          <label
-            ><input type="radio" name="answer" value="{{ question.option3 }}" />
-            {{ question.option3 }}</label
-          ><br />
-          <label
-            ><input type="radio" name="answer" value="{{ question.option4 }}" />
-            {{ question.option4 }}</label
-          ><br />
+          {% endfor %}
         </div>
 
-        <button class="next">Next ➜</button>
+        <button type="submit" class="next">Next ➜</button>
       </form>
     </div>
   </body>

@@ -1,6 +1,7 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
+    <meta charset="UTF-8" />
     <title>Technical Round</title>
   </head>
   <body>
@@ -11,22 +12,19 @@
 
       {% for q in tech_questions %}
       <p>{{ q.question }}</p>
-      <input
-        type="radio"
-        name="tech{{ q.id }}"
-        value="{{ q.option1 }}"
-        required
-      />
-      {{ q.option1 }}<br />
-      <input type="radio" name="tech{{ q.id }}" value="{{ q.option2 }}" /> {{
-      q.option2 }}<br />
-      <input type="radio" name="tech{{ q.id }}" value="{{ q.option3 }}" /> {{
-      q.option3 }}<br />
-      <input type="radio" name="tech{{ q.id }}" value="{{ q.option4 }}" /> {{
-      q.option4 }}<br />
-      {% endfor %}
+      {% for i in range(1,5) %} {% set opt = "option" ~ i %}
+      <label>
+        <input
+          type="radio"
+          name="tech{{ q.id }}"
+          value="{{ q[opt] }}"
+          required
+        />
+        {{ q[opt] }} </label
+      ><br />
+      {% endfor %} {% endfor %}
 
-      <button>Submit</button>
+      <button type="submit">Submit</button>
     </form>
   </body>
 </html>

@@ -111,20 +111,22 @@
         {{ question.sample_output }}
       </div>
 
+      <!-- ✅ Fixed: Always wrap all buttons in the same form -->
       <form method="post">
         <textarea name="code" required>
-{{ user_code or "// Write your C program here\n#include <stdio.h>\n\nint main() {\n\n    return 0;\n}" }}</textarea
+{{ user_code or "// Write your C program here\n#include <stdio.h>\n\nint main() {\n    return 0;\n}" }}</textarea
         >
 
         <div class="btn-group">
           {% if current > 1 %}
           <button type="submit" name="action" value="prev">⬅ Previous</button>
           {% endif %}
-          <button type="submit" name="action" value="run">Run ✅</button>
           <button type="submit" name="action" value="next">Next ➡</button>
+          <button type="submit" name="action" value="finish">Finish 🏁</button>
         </div>
       </form>
 
+      <!-- ✅ Fixed: Check if result exists before using it -->
       {% if result %} {% if "Wrong" in result or "error" in result %}
       <div class="error">{{ result }}</div>
       {% else %}

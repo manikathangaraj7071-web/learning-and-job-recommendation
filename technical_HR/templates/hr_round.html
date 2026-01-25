@@ -1,18 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <title>HR Round</title>
+    <title>HR Interview</title>
     <link rel="stylesheet" href="/static/style.css" />
   </head>
   <body>
-    <h2>HR Interview Round</h2>
+    <div class="card">
+      <div class="progress">Question {{ current }} / {{ total }}</div>
 
-    <form action="/technical" method="post">
-      {% for q in hr_questions %}
-      <p>{{ q.question }}</p>
-      <textarea name="hr{{ q.id }}" required></textarea>
-      {% endfor %}
-      <button>Next</button>
-    </form>
+      <h2>{{ question.question }}</h2>
+
+      <!-- Answer will be captured via textarea -->
+      <form method="post">
+        <textarea
+          name="answer"
+          placeholder="Type your answer here..."
+          required
+        ></textarea>
+        <button type="submit">Next ➜</button>
+      </form>
+    </div>
   </body>
 </html>

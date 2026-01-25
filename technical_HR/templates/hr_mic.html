@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title>HR Interview</title>
@@ -10,19 +10,17 @@
 
       <h2>{{ question.question }}</h2>
 
-      <!-- ❌ TEXTBOX HIDDEN -->
-      <input type="hidden" id="finalAnswer" name="answer" />
-
       <div class="mic-status" id="status">🎙 Click mic and start speaking</div>
 
-      <div class="controls">
-        <button type="button" onclick="startMic()">🎤 Start Mic</button>
+      <!-- ✅ Form should wrap the hidden input and submit button -->
+      <form method="post">
+        <input type="hidden" name="answer" id="hiddenAnswer" />
 
-        <form method="post">
-          <input type="hidden" name="answer" id="hiddenAnswer" />
+        <div class="controls">
+          <button type="button" onclick="startMic()">🎤 Start Mic</button>
           <button type="submit" class="next">Next ➜</button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
 
     <script>
@@ -33,8 +31,9 @@
         finalText = "";
         document.getElementById("status").innerText = "🎧 Listening...";
 
-        recognition = new (window.SpeechRecognition ||
-          window.webkitSpeechRecognition)();
+        recognition = new (
+          window.SpeechRecognition || window.webkitSpeechRecognition
+        )();
         recognition.lang = "en-US";
         recognition.start();
 

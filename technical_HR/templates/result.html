@@ -73,20 +73,20 @@
 
       <div class="score">
         <span>HR Score:</span>
-        <span>{{ hr_score }} ({{ hr_percentage|round|int }}%)</span>
+        <span>{{ hr_score }} ({{ hr_percentage }}%)</span>
       </div>
 
       <div class="score">
         <span>Technical Score:</span>
-        <span>{{ tech_score }} ({{ tech_percentage|round|int }}%)</span>
+        <span>{{ tech_score }} ({{ tech_percentage }}%)</span>
       </div>
 
       <div class="score">
         <span>Coding Score:</span>
-        <span>{{ code_score }} ({{ code_percentage|round|int }}%)</span>
+        <span>{{ code_score }} ({{ code_percentage }}%)</span>
       </div>
 
-      <div class="total-score">Total Score : {{ total }}</div>
+      <div class="total-score">Total Score : {{ total_score }}</div>
 
       {% if status == "Selected" %}
       <div class="status success">✅ Selected</div>
