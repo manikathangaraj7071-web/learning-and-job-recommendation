@@ -1,20 +1,32 @@
+import os
+import random
 from flask import Flask, render_template, request, redirect, session
 import mysql.connector
-import os, random
 
-app = Flask(__name__, template_folder="templates", static_folder="static")
+# ---------------- FLASK INIT ----------------
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+app = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, "templates"),
+    static_folder=os.path.join(BASE_DIR, "static")
+)
 app.secret_key = os.getenv("SECRET_KEY", "interview_secret")
 
 # ---------------- DATABASE ----------------
 def get_db():
-    return mysql.connector.connect(
-        host=os.getenv("MYSQLHOST"),
-        user=os.getenv("MYSQLUSER"),
-        password=os.getenv("MYSQLPASSWORD"),
-        database=os.getenv("MYSQLDATABASE"),
-        port=int(os.getenv("MYSQLPORT", 3306)),
-        autocommit=True
-    )
+    try:
+        return mysql.connector.connect(
+            host=os.getenv("MYSQLHOST"),
+            user=os.getenv("MYSQLUSER"),
+            password=os.getenv("MYSQLPASSWORD"),
+            database=os.getenv("MYSQLDATABASE"),
+            port=int(os.getenv("MYSQLPORT", 3306)),
+            autocommit=True
+        )
+    except mysql.connector.Error as e:
+        print("Database connection error:", e)
+        return None
 
 # ---------------- SESSION INIT ----------------
 def init_session():
@@ -38,22 +50,18 @@ def hr_round():
     init_session()
 
     if not session["hr_q"]:
-        try:
-            db = get_db()
-            cur = db.cursor(dictionary=True)
-            cur.execute("SELECT * FROM tech_hr_questions")
-            session["hr_q"] = cur.fetchall()
-            random.shuffle(session["hr_q"])
-            cur.close()
-            db.close()
-        except:
+        db = get_db()
+        if not db:
             return "Database connection error"
+        cur = db.cursor(dictionary=True)
+        cur.execute("SELECT * FROM tech_hr_questions")
+        session["hr_q"] = cur.fetchall()
+        random.shuffle(session["hr_q"])
+        cur.close()
+        db.close()
 
     if request.method == "POST":
-        # Store all HR answers from form
-        hr_answers = {}
-        for q in session["hr_q"]:
-            hr_answers[str(q["id"])] = request.form.get(f"hr{q['id']}", "")
+        hr_answers = {str(q["id"]): request.form.get(f"hr{q['id']}", "") for q in session["hr_q"]}
         session["hr_answers"] = hr_answers
         return redirect("/technical")
 
@@ -65,23 +73,21 @@ def technical_round():
     init_session()
 
     if not session["tech_q"]:
-        try:
-            db = get_db()
-            cur = db.cursor(dictionary=True)
-            cur.execute("SELECT * FROM tech_questions")
-            session["tech_q"] = cur.fetchall()
-            random.shuffle(session["tech_q"])
-            cur.close()
-            db.close()
-        except:
+        db = get_db()
+        if not db:
             return "Database connection error"
+        cur = db.cursor(dictionary=True)
+        cur.execute("SELECT * FROM tech_questions")
+        session["tech_q"] = cur.fetchall()
+        random.shuffle(session["tech_q"])
+        cur.close()
+        db.close()
 
     if request.method == "POST":
-        tech_score = 0
-        for q in session["tech_q"]:
-            user_ans = request.form.get(f"tech{q['id']}", "")
-            if user_ans == q["correct_option"]:
-                tech_score += 1
+        tech_score = sum(
+            1 for q in session["tech_q"]
+            if request.form.get(f"tech{q['id']}", "") == q["correct_option"]
+        )
         session["tech_score"] = tech_score
         return redirect("/code")
 
@@ -93,16 +99,15 @@ def code_round():
     init_session()
 
     if not session["code_q"]:
-        try:
-            db = get_db()
-            cur = db.cursor(dictionary=True)
-            cur.execute("SELECT * FROM code_questions")
-            session["code_q"] = cur.fetchall()
-            random.shuffle(session["code_q"])
-            cur.close()
-            db.close()
-        except:
+        db = get_db()
+        if not db:
             return "Database connection error"
+        cur = db.cursor(dictionary=True)
+        cur.execute("SELECT * FROM code_questions")
+        session["code_q"] = cur.fetchall()
+        random.shuffle(session["code_q"])
+        cur.close()
+        db.close()
 
     if request.method == "POST":
         for idx, q in enumerate(session["code_q"]):
@@ -122,7 +127,7 @@ def result():
 
     hr_score = sum(1 for ans in session["hr_answers"].values() if ans.strip())
     tech_score = session.get("tech_score", 0)
-    code_score = 0  # Optional: You can add code scoring logic later
+    code_score = 0  # Optional scoring
 
     hr_per = (hr_score / hr_total) * 100 if hr_total else 0
     tech_per = (tech_score / tech_total) * 100 if tech_total else 0
