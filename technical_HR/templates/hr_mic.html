@@ -10,17 +10,19 @@
 
       <h2>{{ question.question }}</h2>
 
+      <!-- ❌ TEXTBOX HIDDEN -->
+      <input type="hidden" id="finalAnswer" name="answer" />
+
       <div class="mic-status" id="status">🎙 Click mic and start speaking</div>
 
-      <!-- ✅ Form should wrap the hidden input and submit button -->
-      <form method="post">
-        <input type="hidden" name="answer" id="hiddenAnswer" />
+      <div class="controls">
+        <button type="button" onclick="startMic()">🎤 Start Mic</button>
 
-        <div class="controls">
-          <button type="button" onclick="startMic()">🎤 Start Mic</button>
+        <form method="post">
+          <input type="hidden" name="answer" id="hiddenAnswer" />
           <button type="submit" class="next">Next ➜</button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
 
     <script>

@@ -5,20 +5,14 @@
     <link rel="stylesheet" href="/static/style.css" />
   </head>
   <body>
-    <div class="card">
-      <h2>HR Interview Round</h2>
+    <h2>HR Interview Round</h2>
 
-      <form method="post">
-        {% if hr_q %} {% set index = session.hr_index %}
-        <p>{{ hr_q[index].question }}</p>
-        <textarea name="answer" required>
-{{ hr_answers[index] if hr_answers|length > index else "" }}</textarea
-        >
-        <button type="submit" class="next">Next ➜</button>
-        {% else %}
-        <p>No HR questions found.</p>
-        {% endif %}
-      </form>
-    </div>
+    <form action="/technical" method="post">
+      {% for q in hr_questions %}
+      <p>{{ q.question }}</p>
+      <textarea name="hr{{ q.id }}" required></textarea>
+      {% endfor %}
+      <button>Next</button>
+    </form>
   </body>
 </html>
