@@ -1,30 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
     <title>Technical Round</title>
+    <link rel="stylesheet" href="/static/style.css" />
   </head>
   <body>
-    <h2>Technical Interview Round</h2>
+    <div class="card">
+      <h2>Technical Interview Round</h2>
 
-    <form action="/result" method="post">
-      <input type="hidden" name="hr_score" value="{{ hr_score }}" />
+      <form method="post">
+        {% if tech_q %}
+          {% set index = session.tech_index %}
+          <p>{{ tech_q[index].question }}</p>
 
-      {% for q in tech_questions %}
-      <p>{{ q.question }}</p>
-      {% for i in range(1,5) %} {% set opt = "option" ~ i %}
-      <label>
-        <input
-          type="radio"
-          name="tech{{ q.id }}"
-          value="{{ q[opt] }}"
-          required
-        />
-        {{ q[opt] }} </label
-      ><br />
-      {% endfor %} {% endfor %}
+          <label>
+            <input type="radio" name="answer" value="{{ tech_q[index].option1 }}" required
+            {% if session.get('tech_answers') and session.tech_answers|length > index and session.tech_answers[index] == tech_q[index].option1 %} checked {% endif %}>
+            {{ tech_q[index].option1 }}
+          </label><br />
 
-      <button type="submit">Submit</button>
-    </form>
+          <label>
+            <input type="radio" name="answer" value="{{ tech_q[index].option2 }}"
+            {% if session.get('tech_answers') and session.tech_answers|length > index and session.tech_answers[index] == tech_q[index].option2 %} checked {% endif %}>
+            {{ tech_q[index].option2 }}
+          </label><br />
+
+          <label>
+            <input type="radio" name="answer" value="{{ tech_q[index].option3 }}"
+            {% if session.get('tech_answers') and session.tech_answers|length > index and session.tech_answers[index] == tech_q[index].option3 %} checked {% endif %}>
+            {{ tech_q[index].option3 }}
+          </label><br />
+
+          <label>
+            <input type="radio" name="answer" value="{{ tech_q[index].option4 }}"
+            {% if session.get('tech_answers') and session.tech_answers|length > index and session.tech_answers[index] == tech_q[index].option4 %} checked {% endif %}>
+            {{ tech_q[index].option4 }}
+          </label><br />
+
+          <button type="submit" class="next">Next ➜</button>
+        {% else %}
+          <p>No Technical questions found.</p>
+        {% endif %}
+      </form>
+    </div>
   </body>
 </html>

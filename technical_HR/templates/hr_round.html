@@ -1,23 +1,23 @@
 <!doctype html>
 <html>
   <head>
-    <title>HR Interview</title>
+    <title>HR Round</title>
     <link rel="stylesheet" href="/static/style.css" />
   </head>
   <body>
     <div class="card">
-      <div class="progress">Question {{ current }} / {{ total }}</div>
+      <h2>HR Interview Round</h2>
 
-      <h2>{{ question.question }}</h2>
-
-      <!-- Answer will be captured via textarea -->
       <form method="post">
-        <textarea
-          name="answer"
-          placeholder="Type your answer here..."
-          required
-        ></textarea>
-        <button type="submit">Next ➜</button>
+        {% if hr_q %} {% set index = session.hr_index %}
+        <p>{{ hr_q[index].question }}</p>
+        <textarea name="answer" required>
+{{ hr_answers[index] if hr_answers|length > index else "" }}</textarea
+        >
+        <button type="submit" class="next">Next ➜</button>
+        {% else %}
+        <p>No HR questions found.</p>
+        {% endif %}
       </form>
     </div>
   </body>
